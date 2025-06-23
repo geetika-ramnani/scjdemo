@@ -6,6 +6,7 @@ import Testimonials from "../components/Testimonials";
 import JoinFamily from "../components/JoinFamily";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import PartnersSection from "../components/OurPartners";
 
 export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,13 +21,14 @@ export default function HomePage() {
         isLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
-          <Navbar/>
-          <HeroSection />
-          <FeaturedProjects />
-          <StudioVision />
-          <Testimonials />
-          <JoinFamily/>
-          <Footer/>
+      <Navbar />
+      <HeroSection />
+      <FeaturedProjects />
+      <StudioVision />
+      <Testimonials />
+      <PartnersSection />
+      <JoinFamily />
+      <Footer />
     </div>
   );
 }

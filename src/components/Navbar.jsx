@@ -1,53 +1,64 @@
 
-import React, { useState, useEffect } from "react"
-import { ChevronDown } from "lucide-react"
+import { useState, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ onBackToSlider }) => {
-    const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
-  const [selectedLanguage, setSelectedLanguage] = useState("EN")
-  const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+const Navbar = ({
+  
+  onBackToSlider,
+  onNavigateToSignIn,
+  onNavigateToSignUp,
+  onNavigateToPage,
+}) => {
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("EN");
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-    setIsMenuOpen(false)
-  }
+  const handleNavigation = (page) => {
+    onNavigateToPage(page);
+    setIsMenuOpen(false);
+  };
+
+  const handleLogoClick = () => {
+    onNavigateToPage("home");
+  };
 
   const languages = [
     { code: "EN", name: "English" },
     { code: "HI", name: "Hindi" },
     { code: "TA", name: "Tamil" },
-  ]
+  ];
 
   const handleLanguageSelect = (language) => {
-    setSelectedLanguage(language.code)
-    setIsLanguageOpen(false)
-  }
+    setSelectedLanguage(language.code);
+    setIsLanguageOpen(false);
+  };
 
   useEffect(() => {
     const controlNavbar = () => {
-      const currentScrollY = window.scrollY
+      if (typeof window !== "undefined") {
+        const currentScrollY = window.scrollY;
 
-      if (currentScrollY < lastScrollY || currentScrollY < 10) {
-        setIsVisible(true)
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false)
-        setIsMenuOpen(false)
-        setIsLanguageOpen(false)
+        if (currentScrollY < lastScrollY || currentScrollY < 10) {
+          setIsVisible(true);
+        } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsVisible(false);
+          setIsMenuOpen(false);
+          setIsLanguageOpen(false);
+        }
+
+        setLastScrollY(currentScrollY);
       }
+    };
 
-      setLastScrollY(currentScrollY)
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", controlNavbar);
+      return () => window.removeEventListener("scroll", controlNavbar);
     }
-
-    window.addEventListener("scroll", controlNavbar)
-    return () => window.removeEventListener("scroll", controlNavbar)
-  }, [lastScrollY])
+  }, [lastScrollY]);
 
   return (
     <nav
@@ -69,8 +80,9 @@ const Navbar = ({ onBackToSlider }) => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0 cursor-pointer group" onClick={onBackToSlider}>
+      <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
             <img
               src="../public/scj-logo-new.png"
               alt="SCJ Entertainment"
@@ -78,27 +90,102 @@ const Navbar = ({ onBackToSlider }) => {
             />
           </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {["home", "services", "projects", "careers", "contact"].map((section) => (
+          {/* Desktop Navigation - Organized in Groups */}
+          <div className="hidden lg:block">
+            <div className="flex items-center space-x-1">
+              {/* Main Navigation Group */}
+              <div className="flex items-center space-x-1 mr-6">
                 <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                  onClick={() => navigate('/home')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                 >
-                  {section.charAt(0).toUpperCase() + section.slice(1).replace("Us", " Us")}
+                  Home
                 </button>
-              ))}
+                <button
+                  onClick={() => navigate('/services')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                >
+                  Services
+                </button>
+                <button
+                  onClick={() => navigate('/projects')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                >
+                  Projects
+                </button>
+              </div>
+
+              {/* Business Navigation Group */}
+              <div className="flex items-center space-x-0.6 mr-6">
+                <button
+                  onClick={() => navigate('/distribution')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                >
+                  Distribution
+                </button>
+                <button
+                  onClick={() => navigate('/talent')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                >
+                  Talent
+                </button>
+              </div>
+
+              {/* Contact Navigation Group */}
+              <div className="flex items-center space-x-1">
+                <button
+                  onClick={() => navigate('/career')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                >
+                  Careers
+                </button>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                >
+                  Contact
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Right buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* Medium Screen Navigation - Simplified */}
+          <div className="hidden md:block lg:hidden">
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => handleNavigation("home")}
+                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => handleNavigation("services")}
+                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
+              >
+                Services
+              </button>
+              <button
+                onClick={() => handleNavigation("projects")}
+                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => navigate('/contact')}
+                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
+              >
+                Contact
+              </button>
+            </div>
+          </div>
+
+          {/* Right side buttons */}
+          <div className="hidden md:flex items-center space-x-3">
+            {/* Language Selector */}
             <div className="relative">
               <button
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                className="flex items-center space-x-1 text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                className="flex items-center space-x-1 text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
               >
                 <span>{selectedLanguage}</span>
                 <ChevronDown className="h-4 w-4" />
@@ -119,21 +206,25 @@ const Navbar = ({ onBackToSlider }) => {
               )}
             </div>
 
-            <button
-              onClick={() => navigate("/signin")}
-              className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-6 py-2 text-sm font-medium transition-all duration-300 rounded-lg border border-white/20 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-400/20"
-            >
-              Sign in
-            </button>
-            <button
-              onClick={() => navigate("/signup")}
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/40"
-            >
-              Sign up
-            </button>
+            {/* Auth Buttons */}
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => navigate('/signin')}
+                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg border border-white/20 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-400/20"
+              >
+                Sign in
+              </button>
+
+              <button
+                onClick={() => navigate('/signup')}
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/40"
+              >
+                Sign up
+              </button>
+            </div>
           </div>
 
-          {/* Hamburger */}
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -141,9 +232,15 @@ const Navbar = ({ onBackToSlider }) => {
             >
               <span className="sr-only">Open main menu</span>
               <div className="flex flex-col space-y-1">
-                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}></span>
-                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}></span>
-                <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
+                <span
+                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}
+                ></span>
+                <span
+                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
+                ></span>
+                <span
+                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
+                ></span>
               </div>
             </button>
           </div>
@@ -151,45 +248,98 @@ const Navbar = ({ onBackToSlider }) => {
 
         {/* Mobile menu */}
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-          }`}
+          className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}
         >
           <div className="px-2 pt-2 pb-3 space-y-1 bg-black/80 backdrop-blur-sm rounded-lg mt-2 border border-white/20">
-            {["home", "services", "projects", "careers", "contact"].map((section) => (
+            {/* Main Navigation */}
+            <div className="border-b border-white/10 pb-3 mb-3">
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Main</div>
               <button
-                key={section}
-                onClick={() => scrollToSection(section)}
+                onClick={() => handleNavigation("home")}
                 className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
               >
-                {section.charAt(0).toUpperCase() + section.slice(1).replace("Us", " Us")}
+                Home
               </button>
-            ))}
+              <button
+                onClick={() => handleNavigation("services")}
+                className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
+              >
+                Services
+              </button>
+              <button
+                onClick={() => handleNavigation("projects")}
+                className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
+              >
+                Projects
+              </button>
+            </div>
 
-            <div className="border-t border-white/20 pt-3 mt-3 px-4">
-              <div className="text-sm font-medium text-gray-400 mb-2">Language</div>
-              {languages.map((language) => (
-                <button
-                  key={language.code}
-                  onClick={() => handleLanguageSelect(language)}
-                  className={`block w-full text-left px-3 py-2 text-sm rounded transition-all duration-300 ${
-                    selectedLanguage === language.code
-                      ? "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent bg-yellow-400/20"
-                      : "text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10"
-                  }`}
-                >
-                  {language.name}
-                </button>
-              ))}
+            {/* Business Navigation */}
+            <div className="border-b border-white/10 pb-3 mb-3">
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Business</div>
+              <button
+                onClick={() => handleNavigation("distribution")}
+                className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
+              >
+                Distribution Portfolio
+              </button>
+              <button
+                onClick={() => handleNavigation("talent")}
+                className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
+              >
+                Talent Management
+              </button>
+            </div>
+
+            {/* Contact Navigation */}
+            <div className="border-b border-white/10 pb-3 mb-3">
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Connect</div>
+              <button
+                 onClick={() => navigate('/contact')}
+                className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
+              >
+                Careers
+              </button>
+              <button
+                onClick={() => handleNavigation("contact")}
+                className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
+              >
+                Contact Us
+              </button>
+            </div>
+
+            {/* Language & Auth */}
+            <div>
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Account</div>
+
+              {/* Mobile Language Selector */}
+              <div className="px-4 py-2 mb-2">
+                <div className="text-sm font-medium text-gray-400 mb-2">Language</div>
+                <div className="grid grid-cols-3 gap-1">
+                  {languages.map((language) => (
+                    <button
+                      key={language.code}
+                      onClick={() => handleLanguageSelect(language)}
+                      className={`px-3 py-2 text-sm rounded transition-all duration-300 ${
+                        selectedLanguage === language.code
+                          ? "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent bg-yellow-400/20"
+                          : "text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10"
+                      }`}
+                    >
+                      {language.code}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <button
-                onClick={() => navigate("/signin")}
+                onClick={onNavigateToSignIn}
                 className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300 border border-white/20 mb-2"
               >
                 Sign in
               </button>
               <button
-                onClick={() => navigate("/signup")}
+                onClick={onNavigateToSignUp}
                 className="block w-full text-left px-4 py-3 text-base font-medium bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black rounded-md transition-all duration-300 hover:scale-105"
               >
                 Sign up
@@ -201,7 +351,7 @@ const Navbar = ({ onBackToSlider }) => {
 
       {isLanguageOpen && <div className="fixed inset-0 z-40" onClick={() => setIsLanguageOpen(false)}></div>}
     </nav>
-  )
-}
+  );
+};
 
 export default Navbar;

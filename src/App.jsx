@@ -4,25 +4,32 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
+  useLocation,
 } from "react-router-dom";
 import IntroVideo from "./pages/IntroVideo";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import ServicesPage from "./pages/ServicesPage";
+import DistributionPage from "./pages/DistributionPage";
+import CareersPage from "./pages/CarrersPage";
+import TalentPage from "./pages/TalentPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ContactPage from "./pages/ContactPage";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-function App() {
+function AppContent() {
   const [showLanding, setShowLanding] = useState(false);
+  const location = useLocation();
+  const hideNavAndFooter = ["/", "/signin", "/signup"].includes(
+    location.pathname
+  );
 
   return (
-    <Router>
+    <>
       <Routes>
-        {/* Home page route */}
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        {/* Root route: controls intro video and landing page */}
         <Route
           path="/"
           element={
@@ -33,7 +40,26 @@ function App() {
             )
           }
         />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/distribution" element={<DistributionPage />} />
+        <Route path="/talent" element={<TalentPage />} />
+        <Route path="/career" element={<CareersPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
+      {!hideNavAndFooter && <Navbar />}
+      {!hideNavAndFooter && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
