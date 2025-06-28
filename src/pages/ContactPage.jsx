@@ -1,8 +1,4 @@
-"use client";
-
-import React from "react";
-import { useState, useEffect, useRef } from "react";
-import emailjs from "@emailjs/browser";
+import { useState, useEffect, useRef } from "react"
 import {
   X,
   CheckCircle,
@@ -14,22 +10,22 @@ import {
   Paintbrush,
   Headphones,
   Shield,
+  Check,
   MapPin,
   Phone,
   Users,
- 
-  Check,
   Navigation,
-} from "lucide-react";
+} from "lucide-react"
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa"
 
 // Contact Success Modal
 const ContactSuccessModal = ({ onClose }) => (
   <div
-    className="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300"
+    className="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300"
     onClick={onClose}
   >
     <div
-      className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-blue-500 rounded-3xl p-8 max-w-md w-[90%] text-center relative transform scale-90 opacity-0 animate-in zoom-in-95 fade-in duration-400"
+      className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-blue-500 rounded-3xl p-8 max-w-md w-[90%] text-center relative transform scale-90 opacity-0 transition-all duration-400"
       onClick={(e) => e.stopPropagation()}
     >
       <button
@@ -57,16 +53,16 @@ const ContactSuccessModal = ({ onClose }) => (
       </button>
     </div>
   </div>
-);
+)
 
 // Confirmation Modal
 const ConfirmationModal = ({ onConfirm, onCancel }) => (
   <div
-    className="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300"
+    className="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300"
     onClick={onCancel}
   >
     <div
-      className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-blue-500 rounded-3xl p-8 max-w-md w-[90%] text-center relative transform scale-90 opacity-0 animate-in zoom-in-95 fade-in duration-400"
+      className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-blue-500 rounded-3xl p-8 max-w-md w-[90%] text-center relative transform scale-90 opacity-0 transition-all duration-400"
       onClick={(e) => e.stopPropagation()}
     >
       <button
@@ -82,9 +78,7 @@ const ConfirmationModal = ({ onConfirm, onCancel }) => (
       <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
         Ready to Send?
       </h3>
-      <p className="text-slate-300 text-lg mb-6">
-        Your message is ready to be sent. Would you like to proceed?
-      </p>
+      <p className="text-slate-300 text-lg mb-6">Your message is ready to be sent. Would you like to proceed?</p>
       <div className="flex gap-4 justify-center">
         <button
           onClick={onConfirm}
@@ -103,115 +97,111 @@ const ConfirmationModal = ({ onConfirm, onCancel }) => (
       </div>
     </div>
   </div>
-);
+)
 
 export default function ContactPage() {
-  const [showContactSuccessModal, setShowContactSuccessModal] = useState(false);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [messageError, setMessageError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const formRef = useRef(null);
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const messageRef = useRef(null);
+  const [showContactSuccessModal, setShowContactSuccessModal] = useState(false)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
+  const [nameError, setNameError] = useState(false)
+  const [emailError, setEmailError] = useState(false)
+  const [messageError, setMessageError] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef(null)
+  const nameRef = useRef(null)
+  const emailRef = useRef(null)
+  const messageRef = useRef(null)
 
   // Validation
   const validateName = (value) => {
-    const isValid = value.trim() !== "";
-    setNameError(!isValid);
-    return isValid;
-  };
+    const isValid = value.trim() !== ""
+    setNameError(!isValid)
+    return isValid
+  }
   const validateEmail = (value) => {
-    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-    setEmailError(!isValid);
-    return isValid;
-  };
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
+    setEmailError(!isValid)
+    return isValid
+  }
   const validateMessage = (value) => {
-    const isValid = value.trim() !== "";
-    setMessageError(!isValid);
-    return isValid;
-  };
+    const isValid = value.trim() !== ""
+    setMessageError(!isValid)
+    return isValid
+  }
 
   // Blur handlers
-  const handleNameBlur = (e) => validateName(e.target.value);
-  const handleEmailBlur = (e) => validateEmail(e.target.value);
-  const handleMessageBlur = (e) => validateMessage(e.target.value);
+  const handleNameBlur = (e) => validateName(e.target.value)
+  const handleEmailBlur = (e) => validateEmail(e.target.value)
+  const handleMessageBlur = (e) => validateMessage(e.target.value)
 
   // Form submit
   const handleContactFormSubmit = (e) => {
-    e.preventDefault();
-    const isNameValid = validateName(name);
-    const isEmailValid = validateEmail(email);
-    const isMessageValid = validateMessage(message);
+    e.preventDefault()
+    const isNameValid = validateName(name)
+    const isEmailValid = validateEmail(email)
+    const isMessageValid = validateMessage(message)
     if (isNameValid && isEmailValid && isMessageValid) {
-      setShowConfirmationModal(true);
+      setShowConfirmationModal(true)
     } else {
-      if (!isNameValid && nameRef.current) nameRef.current.focus();
-      else if (!isEmailValid && emailRef.current) emailRef.current.focus();
-      else if (!isMessageValid && messageRef.current)
-        messageRef.current.focus();
+      if (!isNameValid && nameRef.current) nameRef.current.focus()
+      else if (!isEmailValid && emailRef.current) emailRef.current.focus()
+      else if (!isMessageValid && messageRef.current) messageRef.current.focus()
     }
-  };
+  }
 
-  // Send email using EmailJS
+  // Send email using EmailJS (simulated for demo)
   const sendEmail = async () => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
-      await emailjs.sendForm(
-        "service_xjk3b5u",
-        "template_juphxoj",
-        formRef.current,
-        "hLKj3tsgBrpAY53BK"
-      );
-      console.log("Email sent successfully");
-      handleConfirmSend();
+      // Simulate email sending delay
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      console.log("Email sent successfully (simulated)")
+      handleConfirmSend()
     } catch (error) {
-      console.error("Failed to send message:", error);
-      setShowConfirmationModal(false);
-      alert("Failed to send message. Please try again or contact us directly.");
+      console.error("Failed to send message:", error)
+      setShowConfirmationModal(false)
+      alert("Failed to send message. Please try again or contact us directly.")
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   // Confirmation modal handlers
   const handleConfirmSend = () => {
-    setShowConfirmationModal(false);
-    setShowContactSuccessModal(true);
+    setShowConfirmationModal(false)
+    setShowContactSuccessModal(true)
     // Reset form
-    setName("");
-    setEmail("");
-    setMessage("");
-    setNameError(false);
-    setEmailError(false);
-    setMessageError(false);
-  };
+    setName("")
+    setEmail("")
+    setMessage("")
+    setNameError(false)
+    setEmailError(false)
+    setMessageError(false)
+  }
 
-  const handleCancelSend = () => setShowConfirmationModal(false);
-  const handleCloseSuccessModal = () => setShowContactSuccessModal(false);
+  const handleCancelSend = () => setShowConfirmationModal(false)
+  const handleCloseSuccessModal = () => setShowContactSuccessModal(false)
 
   // Animate-in effect
   useEffect(() => {
-    const animatedSections = document.querySelectorAll(".animate-in-view");
-    const observerOptions = { root: null, rootMargin: "0px", threshold: 0.1 };
+    const animatedSections = document.querySelectorAll(".animate-on-scroll")
+    const observerOptions = { root: null, rootMargin: "0px", threshold: 0.1 }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("animate-in-active");
-          observer.unobserve(entry.target);
+          entry.target.classList.remove("opacity-0", "translate-y-16")
+          entry.target.classList.add("opacity-100", "translate-y-0")
+          observer.unobserve(entry.target)
         }
-      });
-    }, observerOptions);
-    animatedSections.forEach((section) => observer.observe(section));
+      })
+    }, observerOptions)
+    animatedSections.forEach((section) => observer.observe(section))
     return () => {
-      animatedSections.forEach((section) => observer.unobserve(section));
-    };
-  }, []);
+      animatedSections.forEach((section) => observer.unobserve(section))
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white">
@@ -219,21 +209,20 @@ export default function ContactPage() {
       <section className="relative py-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10"></div>
         <div className="container mx-auto px-8 max-w-7xl relative">
-          <div className="text-center mb-16 animate-in-view opacity-0 translate-y-16 transition-all duration-1000">
+          <div className="text-center mb-16 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000">
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent animate-pulse">
-              Let's Connect
+             
             </h2>
             <p className="text-slate-300 text-xl max-w-2xl mx-auto leading-relaxed">
-              Ready to bring your vision to life? We're here to help turn your
-              ideas into reality.
+              
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center animate-in-view opacity-0 translate-y-16 transition-all duration-1000 delay-200">
+          <div className="grid lg:grid-cols-2 gap-12 items-center animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000 delay-200">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
+              <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop"
                   alt="Team Collaboration"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -271,13 +260,8 @@ export default function ContactPage() {
                     key={index}
                     className="text-center p-6 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-blue-500 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-500/25"
                   >
-                    <feature.icon
-                      size={32}
-                      className="text-blue-400 mx-auto mb-4"
-                    />
-                    <h4 className="text-white font-semibold mb-2">
-                      {feature.title}
-                    </h4>
+                    <feature.icon size={32} className="text-blue-400 mx-auto mb-4" />
+                    <h4 className="text-white font-semibold mb-2">{feature.title}</h4>
                     <p className="text-slate-300 text-sm">{feature.desc}</p>
                   </div>
                 ))}
@@ -290,23 +274,23 @@ export default function ContactPage() {
       {/* Contact Form Section */}
       <section className="relative py-16 bg-gradient-to-br from-slate-800/80 to-slate-900/80">
         <div className="container mx-auto px-8 max-w-7xl">
-          <div className="text-center mb-16 animate-in-view opacity-0 translate-y-16 transition-all duration-1000">
+          <div className="text-center mb-16 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent">
               Get In Touch
             </h2>
             <p className="text-slate-300 text-xl max-w-2xl mx-auto leading-relaxed">
-              Have a project in mind? We'd love to hear from you. Send us a
-              message and we'll respond as soon as possible.
+              Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as
+              possible.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start animate-in-view opacity-0 translate-y-16 transition-all duration-1000 delay-200">
+          <div className="grid lg:grid-cols-2 gap-12 items-start animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000 delay-200">
             {/* Left Side - Image */}
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 hover:border-blue-500 transition-all duration-500">
                 <div className="aspect-[4/3] relative overflow-hidden">
-                  <img
+                <img
                     src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1000&auto=format&fit=crop"
                     alt="Contact Us"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -316,9 +300,7 @@ export default function ContactPage() {
                       <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                         Ready to Start?
                       </h3>
-                      <p className="text-white text-lg">
-                        Let's create something amazing together
-                      </p>
+                      <p className="text-white text-lg">Let's create something amazing together</p>
                     </div>
                   </div>
                 </div>
@@ -333,16 +315,10 @@ export default function ContactPage() {
                   <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                     Send Us a Message
                   </h3>
-                  <p className="text-slate-300 text-lg">
-                    Fill out the form below and we'll get back to you shortly.
-                  </p>
+                  <p className="text-slate-300 text-lg">Fill out the form below and we'll get back to you shortly.</p>
                 </div>
 
-                <form
-                  ref={formRef}
-                  onSubmit={handleContactFormSubmit}
-                  className="space-y-6"
-                >
+                <form ref={formRef} onSubmit={handleContactFormSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <div className="relative">
@@ -365,7 +341,7 @@ export default function ContactPage() {
                         />
                       </div>
                       {nameError && (
-                        <div className="text-red-400 text-sm animate-in slide-in-from-top-2 duration-300">
+                        <div className="text-red-400 text-sm transition-all duration-300">
                           Please enter your name
                         </div>
                       )}
@@ -392,7 +368,7 @@ export default function ContactPage() {
                         />
                       </div>
                       {emailError && (
-                        <div className="text-red-400 text-sm animate-in slide-in-from-top-2 duration-300">
+                        <div className="text-red-400 text-sm transition-all duration-300">
                           Please enter a valid email address
                         </div>
                       )}
@@ -420,7 +396,7 @@ export default function ContactPage() {
                       />
                     </div>
                     {messageError && (
-                      <div className="text-red-400 text-sm animate-in slide-in-from-top-2 duration-300">
+                      <div className="text-red-400 text-sm transition-all duration-300">
                         Please enter your message
                       </div>
                     )}
@@ -440,16 +416,130 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      
+       {/* Contact Info Section */}
+       <section className="relative py-16 bg-gradient-to-br from-slate-900/90 to-slate-800/90">
+        <div className="container mx-auto px-8 max-w-7xl">
+          <div className="text-center mb-16 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent">
+              Connect With Us
+            </h2>
+            <p className="text-slate-300 text-xl max-w-2xl mx-auto leading-relaxed">
+              Find us through various channels or visit our office. We're always happy to hear from you.
+            </p>
+          </div>
 
+          <div className="space-y-12 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000 delay-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+              {[
+                {
+                  icon: MapPin,
+                  title: "Visit Us",
+                  content: "123 Entertainment Blvd,\nMumbai, India",
+                  link: "#map",
+                  linkText: "Get Directions",
+                  linkIcon: Navigation,
+                },
+                {
+                  icon: Phone,
+                  title: "Call Us",
+                  content: "+91 98765 43210\nMon - Fri: 9:00 AM - 6:00 PM",
+                  link: "tel:+919876543210",
+                  linkText: "Make a Call",
+                  linkIcon: Phone,
+                },
+                {
+                  icon: Mail,
+                  title: "Email Us",
+                  content: "info@scjentertainments.com\nWe reply within 24 hours",
+                  link: "mailto:info@scjentertainments.com",
+                  linkText: "Send Email",
+                  linkIcon: Mail,
+                },
+                {
+                  icon: Users,
+                  title: "Follow Us",
+                  content: "social",
+                  link: "#",
+                  linkText: "Join Community",
+                  linkIcon: Users,
+                },
+              ].map((item, index) => (
+                <div key={index} className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                  <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 shadow-2xl border border-slate-700 hover:border-blue-500 transition-all duration-500 hover:transform hover:-translate-y-2 text-center h-full flex flex-col justify-between min-h-[320px]">
+                    <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-500 group-hover:shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
+                      <item.icon
+                        size={24}
+                        className="text-blue-400 group-hover:text-slate-900 transition-colors duration-300"
+                      />
+                    </div>
+                    <h4 className="text-xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                      {item.title}
+                    </h4>
+                    {item.content === "social" ? (
+                      <div className="flex-1 flex flex-col justify-center">
+                        <div className="flex justify-center gap-4 mb-6">
+                          {[
+                            { name: "Facebook", icon: FaFacebook, color: "hover:bg-blue-600" },
+                            { name: "Twitter", icon: FaTwitter, color: "hover:bg-blue-400" },
+                            { name: "Instagram", icon: FaInstagram, color: "hover:bg-pink-500" },
+                            { name: "LinkedIn", icon: FaLinkedin, color: "hover:bg-blue-700" }
+                          ].map((social, socialIndex) => (
+                            <a
+                              key={socialIndex}
+                              href="#"
+                              className={`w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-400 ${social.color} hover:text-slate-900 transition-all duration-300 hover:scale-110`}
+                              title={social.name}
+                            >
+                              <social.icon size={16} />
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex-1 flex flex-col justify-center">
+                        <p className="text-slate-300 mb-6 whitespace-pre-line">{item.content}</p>
+                      </div>
+                    )}
+                    <div className="mt-auto">
+                      <a
+                        href={item.link}
+                        className="inline-flex items-center gap-2 text-blue-400 hover:text-purple-400 transition-colors duration-300 font-medium"
+                      >
+                        <item.linkIcon size={16} />
+                        {item.linkText}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
 
+            {/* Map */}
+            <div id="map" className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 hover:border-blue-500 transition-all duration-500 h-96">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15083.33235339678!2d72.87103325!3d19.07616145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d6487d!2sMumbai%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Our Location on Google Maps"
+                  className="rounded-3xl"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {showConfirmationModal && <ConfirmationModal onConfirm={sendEmail} onCancel={handleCancelSend} />}
 
-      {showConfirmationModal && (
-        <ConfirmationModal onConfirm={sendEmail} onCancel={handleCancelSend} />
-      )}
-
-      {showContactSuccessModal && (
-        <ContactSuccessModal onClose={handleCloseSuccessModal} />
-      )}
+      {showContactSuccessModal && <ContactSuccessModal onClose={handleCloseSuccessModal} />}
     </div>
-  );
+  )
 }

@@ -54,7 +54,7 @@ const HeroSection = () => {
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">
-          From short films to soulful music – SCJ Entertainment brings stories to life with{" "}
+          From short films to soulful music – SCJ  Entertainment brings stories to life with{" "}
           <span className="text-cyan-400 font-medium">cinematic excellence</span> and{" "}
           <span className="text-cyan-400 font-medium">cutting-edge technology</span>.
         </p>
