@@ -27,7 +27,7 @@ const SignInPage = () => {
         {/* Logo */}
         <div className="absolute top-8 left-8">
           <img
-            src="../public/scj-logo-new.png"
+            src="/scj-logo-new.png"
             alt="SCJ Entertainment"
             className="h-16 w-auto drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
           />
@@ -50,7 +50,7 @@ const SignInPage = () => {
           {/* Mobile Logo */}
           <div className="lg:hidden mb-8 text-center">
             <img
-              src="/scj-logo.png"
+              src="/scj-logo-new.png"
               alt="SCJ Entertainment"
               className="h-12 w-auto mx-auto drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]"
             />
@@ -121,9 +121,16 @@ const SignInPage = () => {
                   Sign Up
                 </button>
               </p>
-              <a href="#" className="text-blue-400 hover:text-blue-300 text-sm transition-colors duration-200">
-                Forgot Password
-              </a>
+              <button 
+                type="button"
+                onClick={() => {
+                  console.log("Navigating to forgot password page");
+                  navigate("/forgotpassword");
+                }}
+                className="text-blue-400 hover:text-blue-300 text-sm transition-colors duration-200 underline"
+              >
+                Forgot Password?
+              </button> 
             </div>
 
             {/* Divider */}

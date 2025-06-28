@@ -19,11 +19,12 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function AppContent() {
   const [showLanding, setShowLanding] = useState(false);
   const location = useLocation();
-  const hideNavAndFooter = ["/", "/signin", "/signup"].includes(
+  const hideNavAndFooter = ["/", "/signin", "/signup", "/forgotpassword"].includes(
     location.pathname
   );
 
@@ -49,6 +50,7 @@ function AppContent() {
         <Route path="/talent" element={<TalentPage />} />
         <Route path="/career" element={<CareersPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
       </Routes>
       {!hideNavAndFooter && <Navbar />}
       {!hideNavAndFooter && <Footer />}

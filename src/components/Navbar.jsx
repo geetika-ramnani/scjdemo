@@ -1,10 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({
-  
   onBackToSlider,
   onNavigateToSignIn,
   onNavigateToSignUp,
@@ -80,11 +78,11 @@ const Navbar = ({
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
             <img
-              src="../public/scj-logo-new.png"
+              src="/scj-logo-new.png"
               alt="SCJ Entertainment"
               className="h-12 w-auto drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.7)] transition-all duration-300 group-hover:scale-105"
             />
@@ -146,36 +144,6 @@ const Navbar = ({
                   Contact
                 </button>
               </div>
-            </div>
-          </div>
-
-          {/* Medium Screen Navigation - Simplified */}
-          <div className="hidden md:block lg:hidden">
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => handleNavigation("home")}
-                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => handleNavigation("services")}
-                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
-              >
-                Services
-              </button>
-              <button
-                onClick={() => handleNavigation("projects")}
-                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
-              >
-                Projects
-              </button>
-              <button
-                onClick={() => navigate('/contact')}
-                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-2 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
-              >
-                Contact
-              </button>
             </div>
           </div>
 
@@ -295,7 +263,7 @@ const Navbar = ({
             <div className="border-b border-white/10 pb-3 mb-3">
               <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Connect</div>
               <button
-                 onClick={() => navigate('/contact')}
+                onClick={() => navigate('/career')}
                 className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
               >
                 Careers
