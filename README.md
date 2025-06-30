@@ -1,12 +1,100 @@
-# React + Vite
+# 🎬 SCJ Entertainments Official Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the frontend source code for **SCJ Entertainments**, a modern, responsive website featuring dynamic pages, service highlights, a chatbot assistant, and a cinematic design.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Getting Started
 
-## Expanding the ESLint configuration
+Follow these steps to run the project locally:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/scj-entertainments.git
+cd scj-entertainments
+```
+
+### 2. Setup Environment Variables
+
+```bash
+mv .env-example .env
+```
+Update the `VITE_BACKEND_URL` value in the `.env` file:
+```bash
+VITE_BACKEND_URL=http://localhost:5000
+```
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+### 4. Start the Development Server
+
+```bash
+npm run dev
+```
+
+### 5. Project Structure
+
+```bash
+├── eslint.config.js
+├── .env-example
+├── index.html
+├── package.json
+├── package-lock.json
+├── public
+│   ├── posters
+│   │   ├── arey-yaar.png
+│   │   ├── ateet.png
+│   │   ├── home-sweet-office.png
+│   │   ├── jahaan-chaar-yaar.png
+│   │   ├── jolly-llb-2.png
+│   │   ├── last-date.png
+│   │   ├── panchlait.png
+│   │   ├── pinjare-wali.png
+│   │   ├── rover.png
+│   │   └── thriller-punjabi.png
+│   ├── scj-logo-new.png
+│   └── vite.svg
+├── README.md
+├── SCJ Entertainment Intro.mp4
+├── src
+│   ├── App.css
+│   ├── App.jsx
+│   ├── assets
+│   │   └── react.svg
+│   ├── components
+│   │   ├── chatbot
+│   │   │   ├── ChatBot.jsx
+│   │   │   ├── ChatBubble.jsx
+│   │   │   └── ChatWindow.jsx
+│   │   ├── FeaturedProjects.jsx
+│   │   ├── Footer.jsx
+│   │   ├── HeroSection.jsx
+│   │   ├── JoinFamily.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── OurPartners.jsx
+│   │   ├── StudioVision.jsx
+│   │   └── Testimonials.jsx
+│   ├── index.css
+│   ├── main.jsx
+│   └── pages
+│       ├── CarrersPage.jsx
+│       ├── ContactPage.jsx
+│       ├── DistributionPage.jsx
+│       ├── ForgotPassword.jsx
+│       ├── HomePage.jsx
+│       ├── IntroVideo.jsx
+│       ├── LandingPage.jsx
+│       ├── ProjectsPage.jsx
+│       ├── ServicesPage.jsx
+│       ├── SignIn.jsx
+│       ├── SignUp.jsx
+│       └── TalentPage.jsx
+└── vite.config.js
+```
+8 directories, 47 files
+
