@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const GOOGLE_OAUTH_URL = import.meta.env.VITE_GOOGLE_OAUTH_URL 
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -14,6 +17,7 @@ const SignUpPage = () => {
     password: "",
     confirmPassword: "",
   })
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -21,6 +25,39 @@ const SignUpPage = () => {
       [e.target.name]: e.target.value,
     })
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await axios.post(`${API_BASE_URL}/register`, {
+        name: formData.firstName + ' ' + formData.lastName,
+        email: formData.email,
+        password: formData.password
+      });
+      alert(res.data.message || 'Registration successful! Please check your email to verify your account.');
+      navigate('/signin');
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Registration failed';
+      if (msg === 'Email already registered') {
+        alert('Email already registered. Please sign in.');
+        navigate('/signin');
+      } else {
+        alert(msg);
+      }
+      setFormData({
+        ...formData,
+        password: '',
+        confirmPassword: ''
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -70,7 +107,7 @@ const SignUpPage = () => {
             <p className="text-gray-400">Let's create your account and get started.</p>
           </div>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -112,6 +149,7 @@ const SignUpPage = () => {
                 type="email"
                 id="email"
                 name="email"
+                aria-label="Email Address"
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
@@ -129,6 +167,7 @@ const SignUpPage = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
+                  aria-label="Password"
                   value={formData.password}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 pr-12"
@@ -154,6 +193,7 @@ const SignUpPage = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
+                  aria-label="Confirm Password"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 pr-12"
@@ -173,8 +213,9 @@ const SignUpPage = () => {
             <button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
+              disabled={loading}
             >
-              Create Account →
+              {loading ? 'Creating Account...' : 'Create Account →'}
             </button>
 
             {/* Link to Sign In */}
@@ -202,25 +243,31 @@ const SignUpPage = () => {
             </div>
 
             {/* Social Buttons */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3" style={{marginTop: '1.5rem'}}>
+              {/* Facebook button (inactive) */}
               <button
                 type="button"
                 className="flex items-center justify-center px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                disabled
               >
                 <span className="text-blue-500 text-xl">f</span>
               </button>
+              {/* X button (inactive) */}
               <button
                 type="button"
                 className="flex items-center justify-center px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                disabled
               >
                 <span className="text-white text-xl">𝕏</span>
               </button>
-              <button
-                type="button"
+              {/* Google button */}
+              <a
+                href={GOOGLE_OAUTH_URL || "http://localhost:3000/api/users/auth/google"}
                 className="flex items-center justify-center px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                style={{ textDecoration: 'none' }}
               >
                 <span className="text-red-500 text-xl">G</span>
-              </button>
+              </a>
             </div>
           </form>
         </div>

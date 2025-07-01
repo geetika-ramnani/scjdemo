@@ -1,23 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleResetPassword = (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
     if (!email) {
       alert("Please enter your email address");
       return;
     }
-    // Simulate password reset email being sent
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-      navigate("/signin"); // redirect back to login after a delay
-    }, 3000);
+    setLoading(true);
+    try {
+      await axios.post(`${API_BASE_URL}/forgot-password`, { email });
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        navigate("/signin");
+      }, 3000);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to send reset instructions');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,8 +103,9 @@ const ForgotPassword = () => {
             <button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
+              disabled={loading}
             >
-              Reset Password →
+              {loading ? 'Sending...' : 'Reset Password →'}
             </button>
 
             {/* Success Message */}

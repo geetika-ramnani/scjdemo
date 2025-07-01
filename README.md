@@ -98,3 +98,21 @@ npm run dev
 ```
 8 directories, 47 files
 
+## Features
+- Modern React app with Vite
+- Environment-based API URLs (no hardcoding)
+- Google OAuth login and registration
+- Responsive, accessible UI
+
+## Scripts
+- `npm run dev` — Start the frontend in development mode
+- `npm run build` — Build for production
+- `npm run preview` — Preview the production build
+
+## Notes
+- All API URLs and OAuth endpoints are controlled via `.env` for easy switching between development and production.
+- For Google OAuth, ensure your backend and Google Cloud Console are configured with the correct callback URLs.
+
+---
+For more details, see code comments and documentation in each file.
+

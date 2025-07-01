@@ -21,6 +21,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ChatBot from "./components/chatbot/ChatBot";
 import ForgotPassword from "./pages/ForgotPassword";
+import OAuthCallback from "./pages/OAuthCallback";
 
 function AppContent() {
 	const [showLanding, setShowLanding] = useState(false);
@@ -52,6 +53,7 @@ function AppContent() {
 				<Route path="/career" element={<CareersPage />} />
 				<Route path="/contact" element={<ContactPage />} />
 				<Route path="/forgotpassword" element={<ForgotPassword />} />
+				<Route path="/oauth-callback" element={<OAuthCallback />} />
 			</Routes>
 			{!hideLayoutComponents && <Navbar />}
 			{!hideLayoutComponents && <Footer />}
