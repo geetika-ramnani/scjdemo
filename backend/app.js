@@ -28,9 +28,22 @@ app.get('/api/ping', (req, res) => {
 
 app.use(handleError);
 
-const PORT = process.env.PORT || 5000;
-db.sync({ alter: true }).then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}); 
+const PORT = process.env.PORT||5000;
+const startServer = async () => {
+  try {
+    await db.authenticate();
+    console.log('Database connected.');
+
+    await db.sync({ alter: true });
+    console.log('Database synced.');
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('Startup error:', err);
+  }
+};
+
+startServer();
+
