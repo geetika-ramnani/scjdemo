@@ -28,7 +28,6 @@ export default function HomePage() {
       <Testimonials />
       <PartnersSection />
       <JoinFamily />
-      <Footer />
     </div>
   );
 }

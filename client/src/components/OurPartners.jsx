@@ -1,6 +1,6 @@
 import React from "react"
 
-const PartnersSection = () => {
+const OurPartners = () => {
   const partners = [
     {
       name: "BookMyShow",
@@ -81,11 +81,9 @@ const PartnersSection = () => {
                   <div className="relative w-40 h-24 md:w-48 md:h-28 lg:w-56 lg:h-32 flex items-center justify-center">
                     <div className="relative w-full h-full bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4 transition-all duration-500 group-hover:bg-white/10 group-hover:border-white/20">
                       <img
-                        src={partner.logo}
+                        src={partner.logo || "/placeholder.svg"}
                         alt={`${partner.name} logo`}
-                        className="w-full h-full object-contain filter grayscale opacity-70 
-                          group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 
-                          transition-all duration-500 ease-out"
+                        className="w-full h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 ease-out"
                       />
                     </div>
 
@@ -110,29 +108,27 @@ const PartnersSection = () => {
         </div>
       </div>
 
-      {/* Keyframes for infinite scroll */}
-      <style>
-        {`
-          @keyframes scroll-left {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(-50%);
-            }
+      {/* CSS Animation Styles */}
+      <style jsx>{`
+        @keyframes scroll-left {
+          0% {
+            transform: translateX(0);
           }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
 
-          .animate-scroll-left {
-            animation: scroll-left 35s linear infinite;
-          }
+        .animate-scroll-left {
+          animation: scroll-left 35s linear infinite;
+        }
 
-          .animate-scroll-left:hover {
-            animation-play-state: paused;
-          }
-        `}
-      </style>
+        .animate-scroll-left:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   )
 }
 
-export default PartnersSection
+export default OurPartners
