@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -42,7 +42,7 @@ function confirmationEmailTemplate(name) {
         <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 15px #ffd70088);" />
       </div>
       <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">SCJ Entertainment</h2>
-      <p style="font-size: 16px; color: #333; margin-bottom: 18px;">Hello${name ? ' ' + name : ''},</p>
+      <p style="font-size: 16px; color: #333; margin-bottom: 18px;">Hello${name ? " " + name : ""},</p>
       <p style="font-size: 16px; color: #333;">Your email has been successfully verified. Welcome to <span style='color: #FFA500; font-weight: 700;'>SCJ Entertainment</span>!</p>
       <p style="font-size: 14px; color: #666; margin-top: 24px;">You can now log in and enjoy our services.</p>
     </div>
@@ -52,20 +52,36 @@ function confirmationEmailTemplate(name) {
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+
+    console.log(name, email, password);
+
     const existing = await User.findOne({ where: { email } });
-    if (existing) return res.status(400).json({ message: 'Email already registered' });
+
+    if (existing)
+      return res.status(400).json({ message: "Email already registered" });
+
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashed });
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const user = await User.create({ name, email, password: hashed, role });
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
     const url = `${process.env.BASE_URL}/api/users/verify/${token}`;
+
+    //Email Verification
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: email,
-      subject: 'Verify your email',
-      html: verificationEmailTemplate(url)
+      subject: "Verify your email",
+      html: verificationEmailTemplate(url),
     });
-    res.status(201).json({ message: 'Registration successful, check your email to verify.' });
-  } catch (err) { next(err); }
+
+    res.status(201).json({
+      message: "Registration successful, check your email to verify.",
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.verifyEmail = async (req, res, next) => {
@@ -73,52 +89,74 @@ exports.verifyEmail = async (req, res, next) => {
     const { token } = req.params;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findByPk(decoded.id);
-    if (!user) return res.status(400).json({ message: 'Invalid link' });
-    if (user.verified) return res.json({ message: 'Already verified' });
+
+    if (!user) return res.status(400).json({ message: "Invalid link" });
+    if (user.verified) return res.json({ message: "Already verified" });
     user.verified = true;
     await user.save();
+
     // Send confirmation email after verification
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: user.email,
-      subject: 'Your email has been verified!',
-      html: confirmationEmailTemplate(user.name || user.username || '')
+      subject: "Your email has been verified!",
+      html: confirmationEmailTemplate(user.name || user.username || ""),
     });
-    res.json({ message: 'Email verified successfully' });
-  } catch (err) { next(err); }
+
+    res.json({ message: "Email verified successfully" });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
-    if (!user.verified) return res.status(403).json({ message: 'Please verify your email first' });
+
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!user.verified)
+      return res
+        .status(403)
+        .json({ message: "Please verify your email first" });
+
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(400).json({ message: 'Invalid credentials' });
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.json({ token });
-  } catch (err) { next(err); }
+
+    if (!match) return res.status(400).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    res.status(200).json({ token });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.resendVerification = async (req, res, next) => {
   try {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ message: 'Email is required' });
+    if (!email) return res.status(400).json({ message: "Email is required" });
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ message: "User not found" });
     if (user.verified) {
-      return res.status(400).json({ message: 'User already verified' });
+      return res.status(400).json({ message: "User already verified" });
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
     const url = `${process.env.BASE_URL}/api/users/verify/${token}`;
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: email,
-      subject: 'Verify your email',
-      html: verificationEmailTemplate(url)
+      subject: "Verify your email",
+      html: verificationEmailTemplate(url),
     });
-    res.json({ message: 'Verification email resent' });
+    res.json({ message: "Verification email resent" });
   } catch (err) {
     next(err);
   }
@@ -127,27 +165,29 @@ exports.resendVerification = async (req, res, next) => {
 exports.welcomeEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ message: 'Email is required' });
+    if (!email) return res.status(400).json({ message: "Email is required" });
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ message: "User not found" });
     if (user.verified) {
-      return res.status(400).json({ message: 'User already verified' });
+      return res.status(400).json({ message: "User already verified" });
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
     const url = `${process.env.BASE_URL}/api/users/verify/${token}`;
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: user.email,
-      subject: 'Welcome to SCJ Entertainment!',
+      subject: "Welcome to SCJ Entertainment!",
       html: welcomeEmailTemplate(user.name),
     });
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: email,
-      subject: 'Verify your email',
-      html: verificationEmailTemplate(url)
+      subject: "Verify your email",
+      html: verificationEmailTemplate(url),
     });
-    res.json({ message: 'Welcome email sent' });
+    res.json({ message: "Welcome email sent" });
   } catch (err) {
     next(err);
   }
@@ -158,22 +198,28 @@ exports.forgotPassword = async (req, res) => {
   const now = Date.now();
   if (!forgotPasswordRequests[email]) forgotPasswordRequests[email] = [];
   // Remove requests older than 1 hour
-  forgotPasswordRequests[email] = forgotPasswordRequests[email].filter(ts => now - ts < 60 * 60 * 1000);
+  forgotPasswordRequests[email] = forgotPasswordRequests[email].filter(
+    (ts) => now - ts < 60 * 60 * 1000,
+  );
   if (forgotPasswordRequests[email].length >= 3) {
-    return res.status(429).json({ message: 'Too many password reset requests. Please try again later.' });
+    return res.status(429).json({
+      message: "Too many password reset requests. Please try again later.",
+    });
   }
   forgotPasswordRequests[email].push(now);
 
   const user = await User.findOne({ where: { email } });
-  if (!user) return res.status(400).json({ message: 'Email not found' });
+  if (!user) return res.status(400).json({ message: "Email not found" });
 
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "15m",
+  });
   const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
 
   await transporter.sendMail({
     from: process.env.SMTP_USER,
     to: email,
-    subject: 'Reset Your SCJ Entertainment Password',
+    subject: "Reset Your SCJ Entertainment Password",
     html: `
       <div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #fffbe6; padding: 32px; border-radius: 18px; max-width: 440px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.10); border: 1px solid #ffe082;">
         <div style="text-align:center; margin-bottom: 20px;">
@@ -191,10 +237,10 @@ exports.forgotPassword = async (req, res) => {
         <p style="font-size: 14px; color: #666; margin-top: 28px;">If you did not request a password reset, you can safely ignore this email or <a href="mailto:support@scjentertainments.com" style="color: #FFA500; text-decoration: underline;">contact support</a>.</p>
         <div style="margin-top: 32px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #ffe082; padding-top: 16px;">&copy; ${new Date().getFullYear()} SCJ Entertainment. All rights reserved.</div>
       </div>
-    `
+    `,
   });
 
-  res.json({ message: 'Password reset link sent to your email.' });
+  res.json({ message: "Password reset link sent to your email." });
 };
 
 exports.resetPassword = async (req, res) => {
@@ -202,7 +248,8 @@ exports.resetPassword = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findByPk(decoded.id);
-    if (!user) return res.status(400).json({ message: 'Invalid or expired token' });
+    if (!user)
+      return res.status(400).json({ message: "Invalid or expired token" });
 
     user.password = await bcrypt.hash(password, 10);
     await user.save();
@@ -211,22 +258,22 @@ exports.resetPassword = async (req, res) => {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: user.email,
-      subject: 'Your SCJ Entertainment Password Was Changed',
+      subject: "Your SCJ Entertainment Password Was Changed",
       html: `
         <div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #fffbe6; padding: 32px; border-radius: 18px; max-width: 440px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.10); border: 1px solid #ffe082;">
           <div style="text-align:center; margin-bottom: 20px;">
             <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 15px #ffd70088);" />
           </div>
           <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px;">Password Changed</h2>
-          <p style="font-size: 16px; color: #333; margin-bottom: 24px;">Hello${user.name ? ' ' + user.name : ''},</p>
+          <p style="font-size: 16px; color: #333; margin-bottom: 24px;">Hello${user.name ? " " + user.name : ""},</p>
           <p style="font-size: 16px; color: #333;">Your password for <b>SCJ Entertainment</b> was changed successfully. If you did not perform this action, please <a href="mailto:support@scjentertainments.com" style="color: #FFA500; text-decoration: underline;">contact our support team</a> immediately.</p>
           <div style="margin-top: 32px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #ffe082; padding-top: 16px;">&copy; ${new Date().getFullYear()} SCJ Entertainment. All rights reserved.</div>
         </div>
-      `
+      `,
     });
 
-    res.json({ message: 'Password has been reset successfully.' });
+    res.json({ message: "Password has been reset successfully." });
   } catch (err) {
-    res.status(400).json({ message: 'Invalid or expired token' });
+    res.status(400).json({ message: "Invalid or expired token" });
   }
-}; 
+};
