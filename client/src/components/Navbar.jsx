@@ -77,140 +77,139 @@ const Navbar = ({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 cursor-pointer group" onClick={handleLogoClick}>
-            <img
-              src="/scj-logo-new.png"
-              alt="SCJ Entertainment"
-              className="h-12 w-auto drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.7)] transition-all duration-300 group-hover:scale-105"
-            />
-          </div>
-
-          {/* Desktop Navigation - Organized in Groups */}
-          <div className="hidden lg:block">
-            <div className="flex items-center space-x-1">
-              {/* Main Navigation Group */}
-              <div className="flex items-center space-x-1 mr-6">
-                <button
-                  onClick={() => navigate('/home')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Home
-                </button>
-                <button
-                  onClick={() => navigate('/services')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Services
-                </button>
-                <button
-                  onClick={() => navigate('/projects')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Projects
-                </button>
-              </div>
-
-              {/* Business Navigation Group */}
-              <div className="flex items-center space-x-0.6 mr-6">
-                <button
-                  onClick={() => navigate('/distribution')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Distribution
-                </button>
-                <button
-                  onClick={() => navigate('/talent')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Talent
-                </button>
-              </div>
-
-              {/* Contact Navigation Group */}
-              <div className="flex items-center space-x-1">
-                <button
-                  onClick={() => navigate('/career')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Careers
-                </button>
-                <button
-                  onClick={() => navigate('/contact')}
-                  className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-                >
-                  Contact
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Right side buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            {/* Language Selector */}
-            <div className="relative">
-              <button
-                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                className="flex items-center space-x-1 text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
-              >
-                <span>{selectedLanguage}</span>
-                <ChevronDown className="h-4 w-4" />
-              </button>
-
-              {isLanguageOpen && (
-                <div className="absolute right-0 mt-2 w-32 bg-black/90 backdrop-blur-md rounded-lg shadow-xl border border-white/20 py-2 z-50">
-                  {languages.map((language) => (
+      <div className="flex items-center h-16 relative z-10">
+        {/* Logo - now outside the centered container */}
+        <div className="flex-shrink-0 cursor-pointer group pl-20 pr-20" onClick={handleLogoClick}>
+          <img
+            src="/scj-logo-new.png"
+            alt="SCJ Entertainment"
+            className="h-12 w-auto drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.7)] transition-all duration-300 group-hover:scale-105"
+          />
+        </div>
+        {/* Centered content */}
+        <div className="flex-1">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              {/* Desktop Navigation - Organized in Groups */}
+              <div className="hidden lg:block">
+                <div className="flex items-center space-x-1">
+                  {/* Main Navigation Group */}
+                  <div className="flex items-center space-x-1 mr-6">
                     <button
-                      key={language.code}
-                      onClick={() => handleLanguageSelect(language)}
-                      className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent transition-all duration-300 hover:bg-white/10"
+                      onClick={() => navigate('/home')}
+                      className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
-                      {language.name}
+                      Home
                     </button>
-                  ))}
+                    <button
+                      onClick={() => navigate('/services')}
+                      className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                    >
+                      Services
+                    </button>
+                    <button
+                      onClick={() => navigate('/projects')}
+                      className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                    >
+                      Projects
+                    </button>
+                  </div>
+
+                  {/* Business Navigation Group */}
+                  <div className="flex items-center space-x-0.6 mr-6">
+                  
+                    <button
+                      onClick={() => navigate('/talent')}
+                      className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                    >
+                      Talent
+                    </button>
+                  </div>
+
+                  {/* Contact Navigation Group */}
+                  <div className="flex items-center space-x-1">
+                    <button
+                      onClick={() => navigate('/career')}
+                      className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                    >
+                      Careers
+                    </button>
+                    <button
+                      onClick={() => navigate('/contact')}
+                      className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                    >
+                      Contact
+                    </button>
+                  </div>
                 </div>
-              )}
-            </div>
-
-            {/* Auth Buttons */}
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => navigate('/signin')}
-                className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg border border-white/20 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-400/20"
-              >
-                Sign in
-              </button>
-
-              <button
-                onClick={() => navigate('/signup')}
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/40"
-              >
-                Sign up
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-yellow-400 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400 transition-all duration-300"
-            >
-              <span className="sr-only">Open main menu</span>
-              <div className="flex flex-col space-y-1">
-                <span
-                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}
-                ></span>
-                <span
-                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
-                ></span>
-                <span
-                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
-                ></span>
               </div>
-            </button>
+
+              {/* Right side buttons */}
+              <div className="hidden md:flex items-center space-x-3">
+                {/* Language Selector */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                    className="flex items-center space-x-1 text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
+                  >
+                    <span>{selectedLanguage}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+
+                  {isLanguageOpen && (
+                    <div className="absolute right-0 mt-2 w-32 bg-black/90 backdrop-blur-md rounded-lg shadow-xl border border-white/20 py-2 z-50">
+                      {languages.map((language) => (
+                        <button
+                          key={language.code}
+                          onClick={() => handleLanguageSelect(language)}
+                          className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent transition-all duration-300 hover:bg-white/10"
+                        >
+                          {language.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Auth Buttons */}
+                <div className="flex items-center space-x-10">
+                  <button
+                    onClick={() => navigate('/signin')}
+                    className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg border border-white/20 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-400/20"
+                  >
+                    Sign in
+                  </button>
+
+                  <button
+                    onClick={() => navigate('/signup')}
+                    className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/40"
+                  >
+                    Sign up
+                  </button>
+                </div>
+              </div>
+
+              {/* Mobile menu button */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-yellow-400 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400 transition-all duration-300"
+                >
+                  <span className="sr-only">Open main menu</span>
+                  <div className="flex flex-col space-y-1">
+                    <span
+                      className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}
+                    ></span>
+                    <span
+                      className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
+                    ></span>
+                    <span
+                      className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
+                    ></span>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
