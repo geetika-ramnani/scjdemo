@@ -2,6 +2,7 @@ const ChatBubble = ({ sender, text }) => {
   const isUser = sender === "user";
 
   return (
+{/* renders separate chatbubbles for user and bot messages */}
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
         className={`px-4 py-2 rounded-xl max-w-[75%] text-sm leading-relaxed shadow-md
