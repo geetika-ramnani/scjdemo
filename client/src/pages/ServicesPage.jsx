@@ -1,9 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const ServicesPage = () => {
   const [currentSection, setCurrentSection] = useState(0)
+  const navigate = useNavigate();
 
   const services = [
    
@@ -38,6 +40,7 @@ const ServicesPage = () => {
       ],
       image: "../public/posters/distribution.jpg",
       gradient: "from-green-500 to-teal-500",
+      link: "src/pages/DistributionPage.jsx",
     },
   ]
 
@@ -138,6 +141,11 @@ const ServicesPage = () => {
                   currentSection === index + 1 ? "translate-y-0 opacity-100" : "translate-y-5 opacity-60"
                 }`}
                 style={{ transitionDelay: "800ms" }}
+                onClick={() => {
+                  if (service.title === "Distribution") {
+                    navigate("/distribution");
+                  }
+                }}
               >
                 <span className="relative z-10">Learn More</span>
                 <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
