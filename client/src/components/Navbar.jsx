@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import DropDown from "./DropDown";
+import FetchingDots from "./FetchingDots";
 
+// redux related imports
+import { useSelector, useDispatch } from "react-redux";
+import { useGetUserDetailsQuery } from "../../services/auth/authService";
+import { setCredentials } from "../../features/auth/authSlice";
+
+// function entry point
 const Navbar = ({
   onBackToSlider,
   onNavigateToSignIn,
@@ -9,6 +17,8 @@ const Navbar = ({
   onNavigateToPage,
 }) => {
   const navigate = useNavigate();
+
+  // ui states
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
@@ -58,6 +68,17 @@ const Navbar = ({
     }
   }, [lastScrollY]);
 
+  // redux auth.state and authApi
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  const { data, isFetching } = useGetUserDetailsQuery("userDetails", {
+    pollingInterval: 900000, // perform refetch after some duration (in milliseconds)
+  });
+
+  // modifying redux state.userInfo
+  useEffect(() => {
+    if (data) dispatch(setCredentials(data.user));
+  }, [data, dispatch]);
   return (
     <nav
       className={`fixed top-0 left-0 w-full bg-gradient-to-br from-black via-gray-900 to-black backdrop-blur-md border-b border-white/10 z-[1000] transition-all duration-300 ${
@@ -79,7 +100,10 @@ const Navbar = ({
 
       <div className="flex items-center h-16 relative z-10">
         {/* Logo - now outside the centered container */}
-        <div className="flex-shrink-0 cursor-pointer group pl-20 pr-20" onClick={handleLogoClick}>
+        <div
+          className="flex-shrink-0 cursor-pointer group pl-20 pr-20"
+          onClick={handleLogoClick}
+        >
           <img
             src="/scj-logo-new.png"
             alt="SCJ Entertainment"
@@ -96,19 +120,19 @@ const Navbar = ({
                   {/* Main Navigation Group */}
                   <div className="flex items-center space-x-1 mr-6">
                     <button
-                      onClick={() => navigate('/home')}
+                      onClick={() => navigate("/home")}
                       className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
                       Home
                     </button>
                     <button
-                      onClick={() => navigate('/services')}
+                      onClick={() => navigate("/services")}
                       className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
                       Services
                     </button>
                     <button
-                      onClick={() => navigate('/projects')}
+                      onClick={() => navigate("/projects")}
                       className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
                       Projects
@@ -117,9 +141,8 @@ const Navbar = ({
 
                   {/* Business Navigation Group */}
                   <div className="flex items-center space-x-0.6 mr-6">
-                  
                     <button
-                      onClick={() => navigate('/talent')}
+                      onClick={() => navigate("/talent")}
                       className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
                       Talent
@@ -129,13 +152,13 @@ const Navbar = ({
                   {/* Contact Navigation Group */}
                   <div className="flex items-center space-x-1">
                     <button
-                      onClick={() => navigate('/career')}
+                      onClick={() => navigate("/career")}
                       className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
                       Careers
                     </button>
                     <button
-                      onClick={() => navigate('/contact')}
+                      onClick={() => navigate("/contact")}
                       className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:shadow-lg hover:shadow-yellow-400/20"
                     >
                       Contact
@@ -173,19 +196,26 @@ const Navbar = ({
 
                 {/* Auth Buttons */}
                 <div className="flex items-center space-x-10">
-                  <button
-                    onClick={() => navigate('/signin')}
-                    className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg border border-white/20 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-400/20"
-                  >
-                    Sign in
-                  </button>
-
-                  <button
-                    onClick={() => navigate('/signup')}
-                    className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/40"
-                  >
-                    Sign up
-                  </button>
+                  {isFetching ? (
+                    <FetchingDots />
+                  ) : userInfo ? (
+                    <DropDown />
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => navigate("/signin")}
+                        className="text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg border border-white/20 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-400/20"
+                      >
+                        Sign in
+                      </button>
+                      <button
+                        onClick={() => navigate("/signup")}
+                        className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/40"
+                      >
+                        Sign up
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -220,7 +250,9 @@ const Navbar = ({
           <div className="px-2 pt-2 pb-3 space-y-1 bg-black/80 backdrop-blur-sm rounded-lg mt-2 border border-white/20">
             {/* Main Navigation */}
             <div className="border-b border-white/10 pb-3 mb-3">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Main</div>
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">
+                Main
+              </div>
               <button
                 onClick={() => handleNavigation("home")}
                 className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
@@ -243,7 +275,9 @@ const Navbar = ({
 
             {/* Business Navigation */}
             <div className="border-b border-white/10 pb-3 mb-3">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Business</div>
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">
+                Business
+              </div>
               <button
                 onClick={() => handleNavigation("distribution")}
                 className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
@@ -260,9 +294,11 @@ const Navbar = ({
 
             {/* Contact Navigation */}
             <div className="border-b border-white/10 pb-3 mb-3">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Connect</div>
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">
+                Connect
+              </div>
               <button
-                onClick={() => navigate('/career')}
+                onClick={() => navigate("/career")}
                 className="block w-full text-left px-4 py-3 text-base font-medium text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-orange-400 hover:to-red-400 hover:bg-clip-text hover:text-transparent hover:bg-white/10 rounded-md transition-all duration-300"
               >
                 Careers
@@ -277,11 +313,15 @@ const Navbar = ({
 
             {/* Language & Auth */}
             <div>
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">Account</div>
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-4">
+                Account
+              </div>
 
               {/* Mobile Language Selector */}
               <div className="px-4 py-2 mb-2">
-                <div className="text-sm font-medium text-gray-400 mb-2">Language</div>
+                <div className="text-sm font-medium text-gray-400 mb-2">
+                  Language
+                </div>
                 <div className="grid grid-cols-3 gap-1">
                   {languages.map((language) => (
                     <button
@@ -316,7 +356,12 @@ const Navbar = ({
         </div>
       </div>
 
-      {isLanguageOpen && <div className="fixed inset-0 z-40" onClick={() => setIsLanguageOpen(false)}></div>}
+      {isLanguageOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setIsLanguageOpen(false)}
+        ></div>
+      )}
     </nav>
   );
 };

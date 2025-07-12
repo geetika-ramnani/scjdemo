@@ -1,10 +1,11 @@
 // ... existing imports ...
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	useLocation,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
 } from "react-router-dom";
 import IntroVideo from "./pages/IntroVideo";
 import LandingPage from "./pages/LandingPage";
@@ -22,52 +23,68 @@ import Footer from "./components/Footer";
 import ChatBot from "./components/chatbot/ChatBot";
 import ForgotPassword from "./pages/ForgotPassword";
 import OAuthCallback from "./pages/OAuthCallback";
-
+import NotFound from "./pages/NotFound";
+import Admin from "./pages/admin/Admin";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function AppContent() {
-	const [showLanding, setShowLanding] = useState(false);
-	const location = useLocation();
-	const hideLayoutComponents = ["/", "/signin", "/signup", "/forgotpassword"].includes(
-		location.pathname
-	);
+  const [showLanding, setShowLanding] = useState(false);
+  const location = useLocation();
+  const hideLayoutComponents = [
+    "/",
+    "/signin",
+    "/signup",
+    "/forgotpassword",
+    "/404",
+  ].includes(location.pathname);
 
-	return (
-		<>
-			<Routes>
-				<Route
-					path="/"
-					element={
-						!showLanding ? (
-							<IntroVideo onVideoEnd={() => setShowLanding(true)} />
-						) : (
-							<LandingPage />
-						)
-					}
-				/>
-				<Route path="/home" element={<HomePage />} />
-				<Route path="/signin" element={<SignIn />} />
-				<Route path="/signup" element={<SignUp />} />
-				<Route path="/projects" element={<ProjectsPage />} />
-				<Route path="/services" element={<ServicesPage />} />
-				<Route path="/distribution" element={<DistributionPage />} />
-				<Route path="/talent" element={<TalentPage />} />
-				<Route path="/career" element={<CareersPage />} />
-				<Route path="/contact" element={<ContactPage />} />
-				<Route path="/forgotpassword" element={<ForgotPassword />} />
-				<Route path="/oauth-callback" element={<OAuthCallback />} />
-			</Routes>
-			{!hideLayoutComponents && <Navbar />}
-			{!hideLayoutComponents && <Footer />}
-			{!hideLayoutComponents && <ChatBot />}
-		</>
-	);
+  return (
+    <>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            !showLanding ? (
+              <IntroVideo onVideoEnd={() => setShowLanding(true)} />
+            ) : (
+              <LandingPage />
+            )
+          }
+        />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+
+        <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/distribution" element={<DistributionPage />} />
+          <Route path="/talent" element={<TalentPage />} />
+          <Route path="/career" element={<CareersPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/oauth-callback" element={<OAuthCallback />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" />} />
+        </Route>
+
+        <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<Admin />} />
+        </Route>
+      </Routes>
+      {!hideLayoutComponents && <Navbar />}
+      {!hideLayoutComponents && <Footer />}
+      {!hideLayoutComponents && <ChatBot />}
+    </>
+  );
 }
 
 function App() {
-	return (
-		<Router>
-			<AppContent />
-		</Router>
-	);
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
 }
 
 export default App;

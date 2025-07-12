@@ -1,36 +1,62 @@
-import React, { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
+import React, { useState, useEffect } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
+// redux related imports
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../../features/auth/authActions";
+
+// .env variables
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const GOOGLE_OAUTH_URL = import.meta.env.VITE_GOOGLE_OAUTH_URL 
+const GOOGLE_OAUTH_URL = import.meta.env.VITE_GOOGLE_OAUTH_URL;
 
+// function entry point
 const SignInPage = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false);
+  // redux state.auth
+  const { loading, error, userInfo, success } = useSelector(
+    (state) => state.auth,
+  );
+  const dispatch = useDispatch();
 
+  // form data handling
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // form submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const res = await axios.post(`${API_BASE_URL}/login`, {
-        email,
-        password
-      });
-      localStorage.setItem('token', res.data.token);
-      alert('Login successful!');
-      navigate('/');
+      dispatch(loginUser({ email: email, password: password }));
     } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
-      setPassword("");
-    } finally {
-      setLoading(false);
+      console.log("login failed");
     }
   };
+
+  // user already logged in
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/home");
+    }
+  }, [navigate, userInfo]);
+
+  // successful login message
+  useEffect(() => {
+    if (success) {
+      alert("Login successful");
+      navigate("/home");
+    }
+  }, [success]);
+
+  // failed login message
+  useEffect(() => {
+    if (error) {
+      alert(`${error}`);
+      setEmail("");
+      setPassword("");
+    }
+  }, [error]);
 
   return (
     <div className="min-h-screen flex">
@@ -42,7 +68,7 @@ const SignInPage = () => {
             className="absolute inset-0"
             style={{
               backgroundImage: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                               radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 0%, transparent 50%)`,
+			       radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 0%, transparent 50%)`,
             }}
           />
         </div>
@@ -62,7 +88,8 @@ const SignInPage = () => {
             Create stories that <br /> inspire today. 🎬
           </h2>
           <p className="text-purple-100 text-lg leading-relaxed max-w-md">
-            SCJ Entertainment brings stories to life with cinematic excellence and cutting-edge innovation.
+            SCJ Entertainment brings stories to life with cinematic excellence
+            and cutting-edge innovation.
           </p>
         </div>
       </div>
@@ -80,14 +107,21 @@ const SignInPage = () => {
           </div>
 
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Sign In To Your Account.</h1>
-            <p className="text-gray-400">Let's sign in to your account and get started.</p>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              Sign In To Your Account.
+            </h1>
+            <p className="text-gray-400">
+              Let's sign in to your account and get started.
+            </p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -103,7 +137,10 @@ const SignInPage = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -132,7 +169,7 @@ const SignInPage = () => {
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
               disabled={loading}
             >
-              {loading ? 'Signing In...' : 'Sign In →'}
+              {loading ? "Signing In..." : "Sign In →"}
             </button>
 
             {/* Links */}
@@ -147,7 +184,7 @@ const SignInPage = () => {
                   Sign Up
                 </button>
               </p>
-              <button 
+              <button
                 type="button"
                 onClick={() => {
                   console.log("Navigating to forgot password page");
@@ -156,7 +193,7 @@ const SignInPage = () => {
                 className="text-blue-400 hover:text-blue-300 text-sm transition-colors duration-200 underline"
               >
                 Forgot Password?
-              </button> 
+              </button>
             </div>
 
             {/* Divider */}
@@ -191,7 +228,7 @@ const SignInPage = () => {
               <a
                 href={GOOGLE_OAUTH_URL}
                 className="flex items-center justify-center px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors duration-200"
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: "none" }}
               >
                 <span className="text-red-500 text-xl">G</span>
               </a>
@@ -200,7 +237,7 @@ const SignInPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignInPage
+export default SignInPage;
