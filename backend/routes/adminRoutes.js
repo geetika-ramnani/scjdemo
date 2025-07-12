@@ -6,11 +6,17 @@ const authoriz = require("../middlewares/authoriz");
 
 const adminController = require("./../controllers/adminController.js");
 
+router.use(auth);
+router.use(authoriz("admin"));
+
 // only admin can access these routes
-router.get("/home", auth, authoriz("admin"), (req, res) =>
+router.get("/home", (req, res) =>
   res.status(200).json({ message: "Admin access granted" }),
 );
 
-router.post("/create", auth, authoriz("admin"), adminController.createAdmin);
+router.post("/createAdmin", adminController.createAdmin);
+router.post("/createUser", adminController.createUser);
+router.patch("/modifyUser", adminController.modifyUser);
+router.delete("/deleteUser", adminController.deleteUser);
 
 module.exports = router;
