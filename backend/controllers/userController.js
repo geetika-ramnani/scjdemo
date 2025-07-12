@@ -19,16 +19,16 @@ function verificationEmailTemplate(link) {
   return `
     <div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #f7fafd; padding: 32px; border-radius: 16px; max-width: 420px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border: 1px solid #f3e9c7;">
       <div style="text-align:center; margin-bottom: 18px;">
-        <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 15px #ffd70088);" />
+	<img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 15px #ffd70088);" />
       </div>
       <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">SCJ Entertainment</h2>
       <p style="font-size: 16px; color: #333; margin-bottom: 24px;">Please verify your email by clicking the button below:</p>
       <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 24px auto;">
-        <tr>
-          <td align="center">
-            <a href="${link}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%); color: #1a237e; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 2px 8px #ffd70044; font-family: 'Poppins', 'Montserrat', Arial, sans-serif;">Verify Email</a>
-          </td>
-        </tr>
+	<tr>
+	  <td align="center">
+	    <a href="${link}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%); color: #1a237e; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 2px 8px #ffd70044; font-family: 'Poppins', 'Montserrat', Arial, sans-serif;">Verify Email</a>
+	  </td>
+	</tr>
       </table>
       <p style="font-size: 14px; color: #666; margin-top: 24px;">This link will expire in <b>15 minutes</b>.</p>
     </div>
@@ -39,7 +39,7 @@ function confirmationEmailTemplate(name) {
   return `
     <div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #f7fafd; padding: 32px; border-radius: 16px; max-width: 420px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border: 1px solid #f3e9c7;">
       <div style="text-align:center; margin-bottom: 18px;">
-        <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 15px #ffd70088);" />
+	<img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 15px #ffd70088);" />
       </div>
       <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">SCJ Entertainment</h2>
       <p style="font-size: 16px; color: #333; margin-bottom: 18px;">Hello${name ? " " + name : ""},</p>
@@ -57,8 +57,7 @@ exports.register = async (req, res, next) => {
 
     const existing = await User.findOne({ where: { email } });
 
-    if (existing)
-      return res.status(400).json({ message: "Email already registered" });
+    if (existing) res.status(400).json({ message: "Email already registered" });
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashed });
@@ -128,10 +127,16 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign(
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" },
+      { expiresIn: "4d" },
     );
 
-    res.status(200).json({ token });
+    res.status(200).json({
+      name: user.name,
+      email: user.email,
+      verified: user.verified,
+      role: user.role,
+      token,
+    });
   } catch (err) {
     next(err);
   }
@@ -222,20 +227,20 @@ exports.forgotPassword = async (req, res) => {
     subject: "Reset Your SCJ Entertainment Password",
     html: `
       <div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #fffbe6; padding: 32px; border-radius: 18px; max-width: 440px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.10); border: 1px solid #ffe082;">
-        <div style="text-align:center; margin-bottom: 20px;">
-          <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 15px #ffd70088);" />
-        </div>
-        <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px;">Reset Your Password</h2>
-        <p style="font-size: 16px; color: #333; margin-bottom: 28px;">We received a request to reset your password. Click the button below to set a new password. <b>This link will expire in 15 minutes.</b></p>
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 28px auto;">
-          <tr>
-            <td align="center">
-              <a href="${resetLink}" style="display: inline-block; padding: 16px 36px; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%); color: #1a237e; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 17px; box-shadow: 0 2px 8px #ffd70044; font-family: 'Poppins', 'Montserrat', Arial, sans-serif;">Reset Password</a>
-            </td>
-          </tr>
-        </table>
-        <p style="font-size: 14px; color: #666; margin-top: 28px;">If you did not request a password reset, you can safely ignore this email or <a href="mailto:support@scjentertainments.com" style="color: #FFA500; text-decoration: underline;">contact support</a>.</p>
-        <div style="margin-top: 32px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #ffe082; padding-top: 16px;">&copy; ${new Date().getFullYear()} SCJ Entertainment. All rights reserved.</div>
+	<div style="text-align:center; margin-bottom: 20px;">
+	  <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 15px #ffd70088);" />
+	</div>
+	<h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px;">Reset Your Password</h2>
+	<p style="font-size: 16px; color: #333; margin-bottom: 28px;">We received a request to reset your password. Click the button below to set a new password. <b>This link will expire in 15 minutes.</b></p>
+	<table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 28px auto;">
+	  <tr>
+	    <td align="center">
+	      <a href="${resetLink}" style="display: inline-block; padding: 16px 36px; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%); color: #1a237e; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 17px; box-shadow: 0 2px 8px #ffd70044; font-family: 'Poppins', 'Montserrat', Arial, sans-serif;">Reset Password</a>
+	    </td>
+	  </tr>
+	</table>
+	<p style="font-size: 14px; color: #666; margin-top: 28px;">If you did not request a password reset, you can safely ignore this email or <a href="mailto:support@scjentertainments.com" style="color: #FFA500; text-decoration: underline;">contact support</a>.</p>
+	<div style="margin-top: 32px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #ffe082; padding-top: 16px;">&copy; ${new Date().getFullYear()} SCJ Entertainment. All rights reserved.</div>
       </div>
     `,
   });
@@ -260,15 +265,15 @@ exports.resetPassword = async (req, res) => {
       to: user.email,
       subject: "Your SCJ Entertainment Password Was Changed",
       html: `
-        <div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #fffbe6; padding: 32px; border-radius: 18px; max-width: 440px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.10); border: 1px solid #ffe082;">
-          <div style="text-align:center; margin-bottom: 20px;">
-            <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 15px #ffd70088);" />
-          </div>
-          <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px;">Password Changed</h2>
-          <p style="font-size: 16px; color: #333; margin-bottom: 24px;">Hello${user.name ? " " + user.name : ""},</p>
-          <p style="font-size: 16px; color: #333;">Your password for <b>SCJ Entertainment</b> was changed successfully. If you did not perform this action, please <a href="mailto:support@scjentertainments.com" style="color: #FFA500; text-decoration: underline;">contact our support team</a> immediately.</p>
-          <div style="margin-top: 32px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #ffe082; padding-top: 16px;">&copy; ${new Date().getFullYear()} SCJ Entertainment. All rights reserved.</div>
-        </div>
+	<div style="font-family: 'Poppins', 'Montserrat', Arial, sans-serif; background: #fffbe6; padding: 32px; border-radius: 18px; max-width: 440px; margin: 40px auto; box-shadow: 0 4px 24px rgba(0,0,0,0.10); border: 1px solid #ffe082;">
+	  <div style="text-align:center; margin-bottom: 20px;">
+	    <img src='https://raw.githubusercontent.com/your-repo-path/scj-website/main/public/scj-logo-new.png' alt="SCJ Entertainment Logo" style="width: 120px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 15px #ffd70088);" />
+	  </div>
+	  <h2 style="color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px;">Password Changed</h2>
+	  <p style="font-size: 16px; color: #333; margin-bottom: 24px;">Hello${user.name ? " " + user.name : ""},</p>
+	  <p style="font-size: 16px; color: #333;">Your password for <b>SCJ Entertainment</b> was changed successfully. If you did not perform this action, please <a href="mailto:support@scjentertainments.com" style="color: #FFA500; text-decoration: underline;">contact our support team</a> immediately.</p>
+	  <div style="margin-top: 32px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #ffe082; padding-top: 16px;">&copy; ${new Date().getFullYear()} SCJ Entertainment. All rights reserved.</div>
+	</div>
       `,
     });
 

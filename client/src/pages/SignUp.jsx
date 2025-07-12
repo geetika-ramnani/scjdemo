@@ -1,64 +1,75 @@
-import React, { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
+import React, { useState, useEffect } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
+// redux related imports
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../features/auth/authActions";
+
+// .env variables
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const GOOGLE_OAUTH_URL = import.meta.env.VITE_GOOGLE_OAUTH_URL 
+const GOOGLE_OAUTH_URL = import.meta.env.VITE_GOOGLE_OAUTH_URL;
 
+// function entry point
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [formData, setFormData] = useState({
+  //redux state.auth
+  const { loading, error, success } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  // form data handling
+  const emptyFieldObj = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
-  const [loading, setLoading] = useState(false);
-
+  };
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState(emptyFieldObj);
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
+  // form submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      alert("Passwords do not match");
       return;
     }
-    setLoading(true);
     try {
-      const res = await axios.post(`${API_BASE_URL}/register`, {
-        name: formData.firstName + ' ' + formData.lastName,
-        email: formData.email,
-        password: formData.password
-      });
-      alert(res.data.message || 'Registration successful! Please check your email to verify your account.');
-      navigate('/signin');
+      dispatch(
+        registerUser({
+          name: formData.firstName + " " + formData.lastName,
+          email: formData.email.toLowerCase(),
+          password: formData.password,
+        }),
+      );
     } catch (err) {
-      const msg = err.response?.data?.message || 'Registration failed';
-      if (msg === 'Email already registered') {
-        alert('Email already registered. Please sign in.');
-        navigate('/signin');
-      } else {
-        alert(msg);
-      }
-      setFormData({
-        ...formData,
-        password: '',
-        confirmPassword: ''
-      });
-    } finally {
-      setLoading(false);
+      console.log("registration failed");
     }
   };
 
+  // successful registration message
+  useEffect(() => {
+    if (success) {
+      alert("Registration successful");
+      navigate("/signin");
+    }
+  }, [success]);
+
+  // failed registration message
+  useEffect(() => {
+    if (error) {
+      alert(`${error}`);
+      setFormData(emptyFieldObj);
+    }
+  }, [error]);
   return (
     <div className="min-h-screen flex">
       {/* Left - Brand Section */}
@@ -86,7 +97,8 @@ const SignUpPage = () => {
             Join our creative <br /> journey today. ✨
           </h2>
           <p className="text-purple-100 text-lg leading-relaxed max-w-md">
-            SCJ Entertainment brings stories to life with cinematic excellence and cutting-edge innovation.
+            SCJ Entertainment brings stories to life with cinematic excellence
+            and cutting-edge innovation.
           </p>
         </div>
       </div>
@@ -103,15 +115,22 @@ const SignUpPage = () => {
           </div>
 
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Create Your Account.</h1>
-            <p className="text-gray-400">Let's create your account and get started.</p>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              Create Your Account.
+            </h1>
+            <p className="text-gray-400">
+              Let's create your account and get started.
+            </p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   First Name
                 </label>
                 <input
@@ -125,7 +144,10 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Last Name
                 </label>
                 <input
@@ -142,7 +164,10 @@ const SignUpPage = () => {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -159,7 +184,10 @@ const SignUpPage = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -185,7 +213,10 @@ const SignUpPage = () => {
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Confirm Password
               </label>
               <div className="relative">
@@ -204,7 +235,11 @@ const SignUpPage = () => {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
                 >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showConfirmPassword ? (
+                    <EyeOff size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
                 </button>
               </div>
             </div>
@@ -215,7 +250,7 @@ const SignUpPage = () => {
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
               disabled={loading}
             >
-              {loading ? 'Creating Account...' : 'Create Account →'}
+              {loading ? "Creating Account..." : "Create Account →"}
             </button>
 
             {/* Link to Sign In */}
@@ -243,7 +278,10 @@ const SignUpPage = () => {
             </div>
 
             {/* Social Buttons */}
-            <div className="grid grid-cols-3 gap-3" style={{marginTop: '1.5rem'}}>
+            <div
+              className="grid grid-cols-3 gap-3"
+              style={{ marginTop: "1.5rem" }}
+            >
               {/* Facebook button (inactive) */}
               <button
                 type="button"
@@ -262,9 +300,12 @@ const SignUpPage = () => {
               </button>
               {/* Google button */}
               <a
-                href={GOOGLE_OAUTH_URL || "http://localhost:3000/api/users/auth/google"}
+                href={
+                  GOOGLE_OAUTH_URL ||
+                  "http://localhost:3000/api/users/auth/google"
+                }
                 className="flex items-center justify-center px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors duration-200"
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: "none" }}
               >
                 <span className="text-red-500 text-xl">G</span>
               </a>
@@ -273,7 +314,7 @@ const SignUpPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;

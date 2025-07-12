@@ -11,7 +11,12 @@ module.exports = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findByPk(decoded.id);
     if (!user) return res.status(401).json({ message: "User not found" });
-    req.user = { id: user.id, email: user.email, role: user.role };
+    req.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
     next();
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
