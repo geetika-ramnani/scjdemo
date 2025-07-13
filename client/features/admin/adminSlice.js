@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser } from "./adminActions";
+import { createUser, modifyUser, deleteUser } from "./adminActions";
 
 const initialState = {
   loading: false,
@@ -24,6 +24,34 @@ const adminSlice = createSlice({
         state.success = true;
       })
       .addCase(createUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // modify
+      .addCase(modifyUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(modifyUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(modifyUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // delete
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

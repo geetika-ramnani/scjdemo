@@ -32,6 +32,9 @@ const CreateUser = () => {
     }));
   };
 
+  useEffect(() => {
+    console.log(formData);
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -60,7 +63,7 @@ const CreateUser = () => {
   useEffect(() => {
     if (error) {
       alert(`${error}`);
-      setFormData(emptyFieldObj);
+      // setFormData(emptyFieldObj);
     }
   }, [error]);
 
@@ -125,6 +128,9 @@ const CreateUser = () => {
             onChange={handleInputChange}
             className="input-style bg-white"
           >
+            <option value="" selected disabled hidden>
+              Choose here
+            </option>
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>

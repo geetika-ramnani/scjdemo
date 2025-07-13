@@ -1,11 +1,32 @@
-import React from "react";
-import UserBar from "../../components/admin/UserBar"; // adjust path if needed
-import FetchingDots from "../../components/FetchingDots"; // adjust path if needed
+import React, { useState, useEffect } from "react";
+import UserBar from "../../components/admin/UserBar";
+import EditUserModal from "../../components/admin/EditUserModal";
+import FetchingDots from "../../components/FetchingDots";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteUser } from "../../../features/admin/adminActions";
 import { useViewUsersQuery } from "../../../services/admin/adminService";
 const ViewUsers = () => {
+  const dispatch = useDispatch();
+  const { loading, error, success } = useSelector((state) => state.admin);
+  const [editingUser, setEditingUser] = useState(null);
   // redux adminApi
   const { data, isFetching, refetch } = useViewUsersQuery("viewUsers", {});
-  console.log(data);
+
+  // successful login message
+  useEffect(() => {
+    if (success) {
+      alert("User Deleted");
+
+      window.location.reload();
+    }
+  }, [success]);
+
+  // failed login message
+  useEffect(() => {
+    if (error) {
+      alert(`${error}`);
+    }
+  }, [error]);
 
   return (
     <div className="min-h-screen bg-black text-white px-4 py-8 pt-16">
@@ -33,14 +54,31 @@ const ViewUsers = () => {
               email={user.email}
               role={user.role}
               type={user.type}
-              onEdit={() => alert(`Edit user ${user.name}`)}
-              onDelete={() => alert(`Delete user ${user.name}`)}
+              onEdit={() => setEditingUser(user)}
+              onDelete={() => {
+                const confirm = window.confirm(
+                  "Are you sure you want to delete this user?",
+                );
+                if (confirm) {
+                  dispatch(deleteUser({ email: user.email }));
+                } else {
+                  alert("deletion failed");
+                }
+              }}
             />
           ))}
         </div>
       ) : (
         <div className="text-center text-gray-400">No users found</div>
       )}
+      <div>
+        {editingUser && (
+          <EditUserModal
+            user={editingUser}
+            onClose={() => setEditingUser(null)}
+          />
+        )}
+      </div>
     </div>
   );
 };

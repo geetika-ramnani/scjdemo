@@ -24,7 +24,6 @@ const authSlice = createSlice({
       state.userInfo = null;
       state.userToken = null;
       state.error = null;
-      window.location.reload();
     },
   },
 
