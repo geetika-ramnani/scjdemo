@@ -24,6 +24,14 @@ const Admin = () => {
         >
           Create User
         </button>
+        <button
+          onClick={() => {
+            navigate("/viewusers");
+          }}
+          className="px-6 py-3 rounded-md bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-black font-semibold hover:brightness-110 transition duration-300"
+        >
+          View Users
+        </button>
       </div>
     </div>
   );

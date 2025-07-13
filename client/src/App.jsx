@@ -28,6 +28,7 @@ import NotFound from "./pages/NotFound";
 // Admin related imports
 import Admin from "./pages/admin/Admin";
 import CreateUser from "./pages/admin/CreateUser";
+import ViewUsers from "./pages/admin/ViewUsers";
 
 // Protected Routes import
 import ProtectedRoutes from "./utils/ProtectedRoutes";
@@ -75,6 +76,7 @@ function AppContent() {
         <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<Admin />} />
           <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/viewusers" element={<ViewUsers />} />
         </Route>
       </Routes>
       {!hideLayoutComponents && <Navbar />}

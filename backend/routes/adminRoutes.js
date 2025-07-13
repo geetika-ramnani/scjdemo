@@ -17,5 +17,6 @@ router.get("/home", (req, res) =>
 router.post("/createuser", adminController.createUser);
 router.patch("/modifyuser", adminController.modifyUser);
 router.delete("/deleteuser", adminController.deleteUser);
+router.get("/viewusers", adminController.getAllUsers);
 
 module.exports = router;

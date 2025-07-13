@@ -126,4 +126,17 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export { modifyUser, createUser, deleteUser };
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      attributes: ["id", "name", "email", "role", "createdAt", "updatedAt"],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({ users });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+export { modifyUser, createUser, deleteUser, getAllUsers };
