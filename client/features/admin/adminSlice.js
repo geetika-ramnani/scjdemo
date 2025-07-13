@@ -1,33 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser } from "./adminActions";
+import { createUser } from "./adminActions";
 
 const initialState = {
   loading: false,
   error: null,
-  success: false, // for monitoring the registration process.
+  success: false,
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const adminSlice = createSlice({
+  name: "admin",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       // register
-      .addCase(registerUser.pending, (state) => {
+      .addCase(createUser.pending, (state) => {
         state.loading = true;
         state.error = null;
         state.success = false;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(createUser.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
-export const { setCredentials, logout } = authSlice.actions;
-export default authSlice.reducer;
+export default adminSlice.reducer;

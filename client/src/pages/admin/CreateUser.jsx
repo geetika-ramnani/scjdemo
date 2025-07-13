@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { createUser } from "../../features/admin/adminSlice"; // Make sure to define this action
 import { useNavigate } from "react-router-dom";
+
+// redux related imports
+import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "../../../features/admin/adminActions"; // Make sure to define this action
 
 const CreateUser = () => {
   const navigate = useNavigate();
+  // redux state.admin variables
   const dispatch = useDispatch();
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const { loading, error, success } = useSelector((state) => state.admin);
 
   const emptyFieldObj = {
     firstName: "",
@@ -14,7 +17,7 @@ const CreateUser = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "user",
+    role: "",
   };
 
   const [formData, setFormData] = useState(emptyFieldObj);
@@ -35,7 +38,7 @@ const CreateUser = () => {
       alert("Passwords do not match");
       return;
     }
-
+    // redux createuser action
     dispatch(
       createUser({
         name: formData.firstName + " " + formData.lastName,
@@ -46,17 +49,18 @@ const CreateUser = () => {
     );
   };
 
+  // successful user creation message
   useEffect(() => {
     if (success) {
-      alert("User created successfully");
-      setFormData(emptyFieldObj);
-      navigate("/admin/dashboard"); // Change path if needed
+      alert("User created successful");
     }
   }, [success]);
 
+  // failed user creation message
   useEffect(() => {
     if (error) {
-      alert(error);
+      alert(`${error}`);
+      setFormData(emptyFieldObj);
     }
   }, [error]);
 
