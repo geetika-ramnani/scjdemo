@@ -7,6 +7,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+// Admin and Non-Admin related routes
 import IntroVideo from "./pages/IntroVideo";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
@@ -24,7 +25,11 @@ import ChatBot from "./components/chatbot/ChatBot";
 import ForgotPassword from "./pages/ForgotPassword";
 import OAuthCallback from "./pages/OAuthCallback";
 import NotFound from "./pages/NotFound";
+// Admin related imports
 import Admin from "./pages/admin/Admin";
+import CreateUser from "./pages/admin/CreateUser";
+
+// Protected Routes import
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function AppContent() {
@@ -54,7 +59,8 @@ function AppContent() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/404" />} />
         <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/services" element={<ServicesPage />} />
@@ -64,12 +70,11 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/oauth-callback" element={<OAuthCallback />} />
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" />} />
         </Route>
 
         <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<Admin />} />
+          <Route path="/createuser" element={<CreateUser />} />
         </Route>
       </Routes>
       {!hideLayoutComponents && <Navbar />}

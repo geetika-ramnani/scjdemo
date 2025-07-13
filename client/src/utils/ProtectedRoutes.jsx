@@ -17,4 +17,3 @@ function ProtectedRoutes({ allowedRoles }) {
 }
 
 export default ProtectedRoutes;
-

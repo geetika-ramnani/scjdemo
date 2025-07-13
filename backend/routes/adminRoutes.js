@@ -14,9 +14,8 @@ router.get("/home", (req, res) =>
   res.status(200).json({ message: "Admin access granted" }),
 );
 
-router.post("/createAdmin", adminController.createAdmin);
-router.post("/createUser", adminController.createUser);
-router.patch("/modifyUser", adminController.modifyUser);
-router.delete("/deleteUser", adminController.deleteUser);
+router.post("/createuser", adminController.createUser);
+router.patch("/modifyuser", adminController.modifyUser);
+router.delete("/deleteuser", adminController.deleteUser);
 
 module.exports = router;
