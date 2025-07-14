@@ -13,7 +13,6 @@ import HomePage from "./pages/HomePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ServicesPage from "./pages/ServicesPage";
-import DistributionPage from "./pages/DistributionPage";
 import CareersPage from "./pages/CarrersPage";
 import TalentPage from "./pages/TalentPage";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -21,11 +20,15 @@ import ContactPage from "./pages/ContactPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ChatBot from "./components/chatbot/ChatBot";
+import DistributionPage from "./pages/distributionPage/DistributionPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import OAuthCallback from "./pages/OAuthCallback";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/admin/Admin";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
+import { RevenueProvider } from "./pages/distributionPage/RevenueContext";
+import ScrollToTop from "./components/ScrollToTop";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function AppContent() {
   const [showLanding, setShowLanding] = useState(false);
@@ -40,6 +43,7 @@ function AppContent() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"
@@ -58,7 +62,14 @@ function AppContent() {
         <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/distribution" element={<DistributionPage />} />
+          <Route
+            path="/distribution"
+            element={
+              <RevenueProvider>
+                <DistributionPage />
+              </RevenueProvider>
+            }
+          />
           <Route path="/talent" element={<TalentPage />} />
           <Route path="/career" element={<CareersPage />} />
           <Route path="/contact" element={<ContactPage />} />
