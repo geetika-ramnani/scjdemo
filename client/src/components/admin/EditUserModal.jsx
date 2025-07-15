@@ -47,16 +47,15 @@ const EditUserModal = ({ user, onClose }) => {
     dispatch(modifyUser(updatedUser));
   };
 
-  // successful login message
+  // successful edit message
   useEffect(() => {
     if (success) {
       alert("user Modified Successfully");
-
       window.location.reload();
     }
   }, [success]);
 
-  // failed login message
+  // failed edit message
   useEffect(() => {
     if (error) {
       alert(`${error}`);

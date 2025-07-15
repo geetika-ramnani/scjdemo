@@ -12,7 +12,7 @@ const ViewUsers = () => {
   // redux adminApi
   const { data, isFetching, refetch } = useViewUsersQuery("viewUsers", {});
 
-  // successful login message
+  // successful deletion message
   useEffect(() => {
     if (success) {
       alert("User Deleted");
@@ -21,7 +21,7 @@ const ViewUsers = () => {
     }
   }, [success]);
 
-  // failed login message
+  // failed deletion message
   useEffect(() => {
     if (error) {
       alert(`${error}`);

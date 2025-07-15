@@ -32,9 +32,6 @@ const CreateUser = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log(formData);
-  });
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -55,7 +52,8 @@ const CreateUser = () => {
   // successful user creation message
   useEffect(() => {
     if (success) {
-      alert("User created successful");
+      alert("User creation successful");
+      window.location.reload();
     }
   }, [success]);
 
