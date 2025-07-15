@@ -1,57 +1,15 @@
 import User from "./../models/User.js";
 import bcrypt from "bcryptjs";
 
-const createAdmin = async (req, res, next) => {
-  try {
-    const { name, email, password } = req.body;
-
-    //request body validation
-    if (!name || !email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Name, email, and password are required" });
-    }
-
-    //search for existing user
-    const existing = await User.findOne({ where: { email } });
-    if (existing) {
-      return res
-        .status(400)
-        .json({ message: "User with this email already exists" });
-    }
-
-    //creation of admin
-    const hashed = await bcrypt.hash(password, 10);
-    const admin = await User.create({
-      name,
-      email,
-      password: hashed,
-      role: "admin",
-    });
-
-    res.status(201).json({
-      message: "Admin user created successfully",
-      admin: {
-        name: admin.name,
-        email: admin.email,
-        role: admin.role,
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
-
 const createUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     //validation
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       return res
         .status(400)
-        .json({ message: "Name, email, and password are required" });
+        .json({ message: "Name, email,password and role are required" });
     }
 
     //check if a user with this email already exists
@@ -63,10 +21,10 @@ const createUser = async (req, res, next) => {
     //user creation
     const hashedPass = await bcrypt.hash(password, 10);
     const user = await User.create({
-      name,
-      email,
+      name: name,
+      email: email,
       password: hashedPass,
-      role: "user",
+      role: role,
     });
 
     res.status(201).json({
@@ -74,6 +32,8 @@ const createUser = async (req, res, next) => {
       user: {
         name: user.name,
         email: user.email,
+        role: user.role,
+        verified: true,
       },
     });
   } catch (err) {
@@ -166,4 +126,17 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export { createAdmin, modifyUser, createUser, deleteUser };
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      attributes: ["id", "name", "email", "role", "createdAt", "updatedAt"],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({ users });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+export { modifyUser, createUser, deleteUser, getAllUsers };

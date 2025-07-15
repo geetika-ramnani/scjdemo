@@ -7,6 +7,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+// Admin and Non-Admin related routes
 import IntroVideo from "./pages/IntroVideo";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
@@ -24,7 +25,12 @@ import DistributionPage from "./pages/distributionPage/DistributionPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import OAuthCallback from "./pages/OAuthCallback";
 import NotFound from "./pages/NotFound";
+// Admin related imports
 import Admin from "./pages/admin/Admin";
+import CreateUser from "./pages/admin/CreateUser";
+import ViewUsers from "./pages/admin/ViewUsers";
+
+// Protected Routes import
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import { RevenueProvider } from "./pages/distributionPage/RevenueContext";
 import ScrollToTop from "./components/ScrollToTop";
@@ -58,7 +64,8 @@ function AppContent() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/404" />} />
         <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/services" element={<ServicesPage />} />
@@ -75,12 +82,12 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/oauth-callback" element={<OAuthCallback />} />
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" />} />
         </Route>
 
         <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<Admin />} />
+          <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/viewusers" element={<ViewUsers />} />
         </Route>
       </Routes>
       {!hideLayoutComponents && <Navbar />}
