@@ -25,6 +25,7 @@ const createUser = async (req, res, next) => {
       email: email,
       password: hashedPass,
       role: role,
+      verified: true,
     });
 
     res.status(201).json({
@@ -33,7 +34,7 @@ const createUser = async (req, res, next) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        verified: true,
+        verified: user.verified,
       },
     });
   } catch (err) {
