@@ -6,6 +6,10 @@ import ContentPerformanceDashboard from "./ContentPerformanceDashboard";
 import ContentTypeRevenueChart from "./ContentTypeRevenueChart";
 import GeoDistributionChart from "./GeoDistributionChart";
 import CPMRevenueDashboard from "./CPMRevenue/CPMRevenueDashboard";
+import RevenueModelComparision from "./RevenueComparisionmodel";
+import ContentCatalog from "./ContentCatalog";
+import ContentSubmissionForm from "./ContentSubmissionForm";
+import DistributionPartners from "./DistributionPartners";
 
 const DistributionPage = () => {
   const [contractDuration, setContractDuration] = React.useState(5);
@@ -363,124 +367,15 @@ const DistributionPage = () => {
 
         {/* Revenue Model Comparison Section */}
         <div className="mt-16">
-          <div className="text-center mb-16 mt-8">
-            <h2 className="text-5xl md:text-7xl font-bold mb-6 mt-12">
-              <span className="text-white">Revenue Model&nbsp;</span>
-              <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
-                Comparison
-              </span>
-            </h2>
-            <p className="text-gray-300 text-base md:text-lg max-w-3xl mx-auto">
-              Choose from multiple revenue models tailored to your content
-              distribution strategy
-            </p>
-          </div>
-
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "AVOD",
-                  subtitle: "Ad-supported video on demand with revenue sharing",
-                  share: "50-70% Revenue Share",
-                  icon: "📺",
-                  color: "from-green-400 via-emerald-400 to-teal-400",
-                  features: [
-                    "Ad revenue sharing",
-                    "No upfront cost",
-                    "Performance based",
-                    "Flexible terms",
-                  ],
-                },
-                {
-                  title: "TVOD",
-                  subtitle: "Transactional video on demand per view/purchase",
-                  share: "60-80% Revenue Share",
-                  icon: "🎬",
-                  color: "from-blue-400 via-indigo-400 to-purple-400",
-                  features: [
-                    "Pay per view",
-                    "Purchase options",
-                    "Higher margins",
-                    "Direct monetization",
-                  ],
-                },
-                {
-                  title: "Minimum Guarantee",
-                  subtitle: "Upfront payment plus revenue share",
-                  share: "Fixed + 40-60% Share",
-                  icon: "💰",
-                  color: "from-yellow-400 via-orange-400 to-red-400",
-                  features: [
-                    "Upfront payment",
-                    "Revenue sharing",
-                    "Risk sharing",
-                    "Long-term value",
-                  ],
-                },
-                {
-                  title: "Outright",
-                  subtitle: "One-time payment for all rights",
-                  share: "Negotiated Lump Sum",
-                  icon: "🎯",
-                  color: "from-pink-400 via-rose-400 to-red-400",
-                  features: [
-                    "Full rights transfer",
-                    "Single payment",
-                    "No revenue sharing",
-                    "Complete ownership",
-                  ],
-                },
-              ].map((model, index) => (
-                <div
-                  key={index}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className={`w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-r ${model.color} text-2xl`}
-                    >
-                      {model.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-white">
-                      {model.title}
-                    </h3>
-                  </div>
-
-                  <p className="text-gray-400 text-sm mb-4 h-12">
-                    {model.subtitle}
-                  </p>
-
-                  <div
-                    className={`text-xl font-bold bg-gradient-to-r ${model.color} bg-clip-text text-transparent mb-4`}
-                  >
-                    {model.share}
-                  </div>
-
-                  <ul className="space-y-2">
-                    {model.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-center text-gray-300 text-sm"
-                      >
-                        <span
-                          className={`inline-block w-1.5 h-1.5 rounded-full bg-gradient-to-r ${model.color} mr-2`}
-                        ></span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
+          <RevenueModelComparision/>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 py-12 space-y-16">
           <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <AVODRevenueCalculator />
             <TVODRevenueCalculator />
-          </section>
+          </section> 
+          </div>
 
           <section className="space-y-8">
             <ContentPerformanceDashboard />
@@ -494,9 +389,37 @@ const DistributionPage = () => {
           <section>
             <CPMRevenueDashboard />
           </section>
-        </div>
-      </div>
-    </div>
+         
+         {/* Content Catalog Section */}
+            <section className="mt-16">
+              <ContentCatalog />
+           </section>
+
+           {/* Submit Your Content Section */}
+              <div className="text-center mb-16 mt-8">
+                <h2
+                  className="font-bold mb-6 mt-12"
+                  style={{ fontSize: '3rem' }}
+                >
+                  <span className="text-white">Submit Your&nbsp;</span>
+                  <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+                    Content
+                  </span>
+                </h2>
+                <p className="text-gray-300 text-base md:text-lg max-w-3xl mx-auto">
+                  Ready to distribute your film or series? Complete our submission form to have your content reviewed by our acquisition team.
+                </p>
+              </div>
+
+              <div className="flex justify-center w-full">
+                <ContentSubmissionForm />
+              </div>
+
+              <div className="mt-16">
+                <DistributionPartners/>
+              </div>
+            </div>
+          </div>
   );
 };
 
