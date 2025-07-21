@@ -204,13 +204,13 @@ export default function ContactPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white">
+    <div className="min-h-screen bg-[#0d101d] text-white">
       {/* Hero Section */}
       <section className="relative py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-transparent to-red-500/10"></div>
         <div className="container mx-auto px-8 max-w-7xl relative">
           <div className="text-center mb-16 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent animate-pulse">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
              
             </h2>
             <p className="text-slate-300 text-xl max-w-2xl mx-auto leading-relaxed">
@@ -220,7 +220,7 @@ export default function ContactPage() {
 
           <div className="grid lg:grid-cols-2 gap-12 items-center animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000 delay-200">
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop"
@@ -230,7 +230,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-400 to-red-400 bg-clip-text text-transparent">
                 Why Choose Us?
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -272,10 +272,10 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="relative py-16 bg-gradient-to-br from-slate-800/80 to-slate-900/80">
+      <section className="relative py-16 bg-[#0d101d]">
         <div className="container mx-auto px-8 max-w-7xl">
           <div className="text-center mb-16 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
               Get In Touch
             </h2>
             <p className="text-slate-300 text-xl max-w-2xl mx-auto leading-relaxed">
@@ -287,7 +287,7 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-start animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000 delay-200">
             {/* Left Side - Image */}
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 hover:border-blue-500 transition-all duration-500">
                 <div className="aspect-[4/3] relative overflow-hidden">
                 <img
@@ -297,7 +297,7 @@ export default function ContactPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
                     <div className="text-center w-full">
-                      <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                      <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-red-400 bg-clip-text text-transparent">
                         Ready to Start?
                       </h3>
                       <p className="text-white text-lg">Let's create something amazing together</p>
@@ -309,10 +309,10 @@ export default function ContactPage() {
 
             {/* Right Side - Contact Form */}
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl blur opacity-25"></div>
               <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 shadow-2xl border border-slate-700">
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                  <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-red-400 bg-clip-text text-transparent">
                     Send Us a Message
                   </h3>
                   <p className="text-slate-300 text-lg">Fill out the form below and we'll get back to you shortly.</p>
@@ -324,14 +324,14 @@ export default function ContactPage() {
                       <div className="relative">
                         <User
                           size={20}
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 transition-colors duration-300"
+                          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-yellow-400 transition-colors duration-300"
                         />
                         <input
                           type="text"
                           name="user_name"
                           className={`w-full bg-slate-700/80 border-2 ${
                             nameError ? "border-red-500" : "border-slate-600"
-                          } text-white pl-12 pr-4 py-4 rounded-xl text-lg transition-all duration-400 focus:border-blue-500 focus:bg-slate-700/95 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                          } text-white pl-12 pr-4 py-4 rounded-xl text-lg transition-all duration-400 focus:border-yellow-400 focus:bg-slate-700/95 focus:outline-none focus:ring-2 focus:ring-yellow-400/20`}
                           placeholder="Your Name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
@@ -351,14 +351,14 @@ export default function ContactPage() {
                       <div className="relative">
                         <Mail
                           size={20}
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 transition-colors duration-300"
+                          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-yellow-400 transition-colors duration-300"
                         />
                         <input
                           type="email"
                           name="user_email"
                           className={`w-full bg-slate-700/80 border-2 ${
                             emailError ? "border-red-500" : "border-slate-600"
-                          } text-white pl-12 pr-4 py-4 rounded-xl text-lg transition-all duration-400 focus:border-blue-500 focus:bg-slate-700/95 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                          } text-white pl-12 pr-4 py-4 rounded-xl text-lg transition-all duration-400 focus:border-yellow-400 focus:bg-slate-700/95 focus:outline-none focus:ring-2 focus:ring-yellow-400/20`}
                           placeholder="Your Email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -379,13 +379,13 @@ export default function ContactPage() {
                     <div className="relative">
                       <MessageSquare
                         size={20}
-                        className="absolute left-4 top-6 text-blue-400 transition-colors duration-300"
+                        className="absolute left-4 top-6 text-yellow-400 transition-colors duration-300"
                       />
                       <textarea
                         name="message"
                         className={`w-full bg-slate-700/80 border-2 ${
                           messageError ? "border-red-500" : "border-slate-600"
-                        } text-white pl-12 pr-4 py-4 rounded-xl text-lg transition-all duration-400 focus:border-blue-500 focus:bg-slate-700/95 focus:outline-none focus:ring-2 focus:ring-blue-500/20 min-h-[150px] resize-vertical`}
+                        } text-white pl-12 pr-4 py-4 rounded-xl text-lg transition-all duration-400 focus:border-yellow-400 focus:bg-slate-700/95 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 min-h-[150px] resize-vertical`}
                         placeholder="Your Message"
                         rows={5}
                         value={message}
@@ -404,7 +404,7 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-orange-400 text-slate-900 font-bold rounded-full text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-black font-bold rounded-full text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     disabled={isSubmitting}
                   >
                     <Send size={20} />
@@ -418,10 +418,10 @@ export default function ContactPage() {
       </section>
       
        {/* Contact Info Section */}
-       <section className="relative py-16 bg-gradient-to-br from-slate-900/90 to-slate-800/90">
+       <section className="relative py-16 bg-[#0d101d]">
         <div className="container mx-auto px-8 max-w-7xl">
           <div className="text-center mb-16 animate-on-scroll opacity-0 translate-y-16 transition-all duration-1000">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
               Connect With Us
             </h2>
             <p className="text-slate-300 text-xl max-w-2xl mx-auto leading-relaxed">
@@ -466,15 +466,15 @@ export default function ContactPage() {
                 },
               ].map((item, index) => (
                 <div key={index} className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                   <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 shadow-2xl border border-slate-700 hover:border-blue-500 transition-all duration-500 hover:transform hover:-translate-y-2 text-center h-full flex flex-col justify-between min-h-[320px]">
                     <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-500 group-hover:shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
                       <item.icon
                         size={24}
-                        className="text-blue-400 group-hover:text-slate-900 transition-colors duration-300"
+                        className="text-yellow-400 group-hover:text-slate-900 transition-colors duration-300"
                       />
                     </div>
-                    <h4 className="text-xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                    <h4 className="text-xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-red-400 bg-clip-text text-transparent">
                       {item.title}
                     </h4>
                     {item.content === "social" ? (
@@ -518,7 +518,7 @@ export default function ContactPage() {
 
             {/* Map */}
             <div id="map" className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 hover:border-blue-500 transition-all duration-500 h-96">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15083.33235339678!2d72.87103325!3d19.07616145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d6487d!2sMumbai%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
