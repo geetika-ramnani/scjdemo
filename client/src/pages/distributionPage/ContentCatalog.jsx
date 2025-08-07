@@ -9,13 +9,13 @@ const ContentCatalog = () => {
 
   const contentCatalog = [
     {
-      title: "Yunhi Khamakhan ",//
-      poster: "/posters/the_investigator.png",
-      videoUrl: "https://vimeo.com/1016507173/5749b38411",
-      language: "Hindi",//
-      genre: "Romance",
-      category: "Short Film",//
-      description: "Inspector risks all to uncover truth behind a staged suicide.",
+      title: "Wish",
+      poster: "/posters/wish.jpg",
+      videoUrl: "https://www.youtube.com/embed/RvVzYp9INww?autoplay=1&mute=1",
+      language: "Telugu",
+      genre: "Sci-Fi",
+      category: "Short Film",
+      description: "A struggling woman\’s life changes when a glowing gold ball from her dreams speaks to her.",
     },
     {
       title: "Premalo",
@@ -37,12 +37,12 @@ const ContentCatalog = () => {
     },
     {
       title: "Dasettante Cycle",
-      poster: "/posters/the_waiting.jpg",
+      poster: "/posters/dasettante.jpg",
       videoUrl: "https://www.youtube.com/embed/QGNsmYbPpXI?autoplay=1&mute=1",
       language: "Malayalam",
       genre: "Family Drama",
       category: "Film",
-      description: "A broken couple finds love through a timeless Valentine's tale.",
+      description: "A short story of resilience, redemption, and finding purpose through small steps and hope.",
     },
     {
       title: "Montage",
