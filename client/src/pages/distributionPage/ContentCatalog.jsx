@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 const ContentCatalog = () => {
   const [language, setLanguage] = useState('');
   const [genre, setGenre] = useState('');
   const [category, setCategory] = useState('');
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const videoRefs = useRef({});
 
   const contentCatalog = [
     {
-      title: "The Investigator",
+      title: "Yunhi Khamakhan ",//
       poster: "/posters/the_investigator.png",
-      language: "Hindi",
-      genre: "Thriller",
-      category: "Film",
+      videoUrl: "https://vimeo.com/1016507173/5749b38411",
+      language: "Hindi",//
+      genre: "Romance",
+      category: "Short Film",//
       description: "Inspector risks all to uncover truth behind a staged suicide.",
     },
     {
       title: "Premalo",
       poster: "/posters/Premalo.jpg",
+      videoUrl: "https://www.youtube.com/embed/cyqWHvfSFPg?autoplay=1&mute=1",
       language: "Telugu",
       genre: "Romance",
       category: "Film",
@@ -25,22 +29,25 @@ const ContentCatalog = () => {
     {
       title: "Gauriya Live",
       poster: "/posters/Raz.png",
+      videoUrl: "https://www.youtube.com/embed/bmPQ2zNBRdU?autoplay=1&mute=1",
       language: "Hindi",
       genre: "Fiction",
       category: "Film",
       description: "A family's crisis exploited for politics, silencing Gauraiya's true voice.",
     },
     {
-      title: "The Waiting",
+      title: "Dasettante Cycle",
       poster: "/posters/the_waiting.jpg",
-      language: "Hindi",
-      genre: "Drama",
-      category: "Short Film",
+      videoUrl: "https://www.youtube.com/embed/QGNsmYbPpXI?autoplay=1&mute=1",
+      language: "Malayalam",
+      genre: "Family Drama",
+      category: "Film",
       description: "A broken couple finds love through a timeless Valentine's tale.",
     },
     {
       title: "Montage",
       poster: "/posters/Montage.png",
+      videoUrl: "https://www.youtube.com/embed/_La7OwAeM4A?autoplay=1&mute=1",
       language: "Hindi",
       genre: "Slice of Life",
       category: "Film",
@@ -49,6 +56,7 @@ const ContentCatalog = () => {
     {
       title: "Barat",
       poster: "/posters/Barat.jpg",
+      videoUrl: "https://www.youtube.com/embed/TUJKY1aSEoA?autoplay=1&mute=1",
       language: "Hindi",
       genre: "Fantasy",
       category: "Short Film",
@@ -57,6 +65,7 @@ const ContentCatalog = () => {
     {
       title: "Koon",
       poster: "/posters/Koon.jpg",
+      videoUrl: "https://www.youtube.com/embed/PtfBjpXAsLw?autoplay=1&mute=1",
       language: "Malyalam",
       genre: "Thriller",
       category: "Film",
@@ -65,6 +74,7 @@ const ContentCatalog = () => {
     {
       title: "Bhootkaal-2",
       poster: "/posters/Bhootkaal2.jpg",
+      videoUrl: "https://www.youtube.com/embed/-qhD0qYOpkg?autoplay=1&mute=1",
       language: "Hindi",
       genre: "Horror",
       category: "Short Film",
@@ -73,6 +83,7 @@ const ContentCatalog = () => {
     {
       title: "ZIPCODE 47",
       poster: "/posters/Zipcode.jpeg",
+      videoUrl: "https://www.youtube.com/embed/WoMorg-nzpY?autoplay=1&mute=1",
       language: "Hindi",
       genre: "Sci-fi",
       category: "Short Film",
@@ -86,17 +97,25 @@ const ContentCatalog = () => {
     (!category || item.category === category)
   );
 
+  const handleMouseEnter = (index) => {
+    setHoveredItem(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
+  };
+
   return (
     <div className="mt-24">
       <div className="text-center mb-12">
         <h2 className="font-bold mb-6" style={{ fontSize: '3rem' }}>
-          <span className="text-white">Content&nbsp;</span>
+          <span className="text-white">Distribution&nbsp;</span>
           <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
-            Catalog
+            In Pipeline
           </span>
         </h2>
         <p className="text-gray-300 text-base md:text-lg max-w-3xl mx-auto">
-          Browse and filter our content catalog by language, genre, and category.
+          Explore and filter our upcoming releases by language, genre, and category.
         </p>
       </div>
 
@@ -176,6 +195,8 @@ const ContentCatalog = () => {
                 key={idx}
                 className="group bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-visible shadow-xl flex flex-col transition-all duration-300"
                 style={{ minHeight: '420px', boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)', position: 'relative', zIndex: 1 }}
+                onMouseEnter={() => handleMouseEnter(idx)}
+                onMouseLeave={handleMouseLeave}
               >
                 <div className="relative w-full h-64 rounded-t-2xl overflow-visible flex items-center justify-center bg-black">
                   {/* Upcoming button for selected titles */}
@@ -186,22 +207,45 @@ const ContentCatalog = () => {
                       </span>
                     </div>
                   )}
-                  <img
-                    src={item.poster}
-                    alt={item.title}
-                    className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-150 group-hover:shadow-2xl"
-                    style={{
-                      borderRadius: 'inherit',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      zIndex: 30,
-                      pointerEvents: 'none',
-                      background: 'black',
-                    }}
-                  />
+                  
+                  {/* Video Player */}
+                  {hoveredItem === idx ? (
+                    <iframe
+                      ref={(el) => (videoRefs.current[idx] = el)}
+                      src={item.videoUrl}
+                      title={item.title}
+                      className="w-full h-full object-cover transition-transform duration-300"
+                      style={{
+                        borderRadius: 'inherit',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 30,
+                        border: 'none',
+                      }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <img
+                      src={item.poster}
+                      alt={item.title}
+                      className="w-full h-full object-contain object-center transition-transform duration-300"
+                      style={{
+                        borderRadius: 'inherit',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 30,
+                        pointerEvents: 'none',
+                        background: 'black',
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="p-6 flex-1 flex flex-col">
                   <h3 className="text-2xl font-extrabold text-white mb-2 flex items-center drop-shadow-lg">

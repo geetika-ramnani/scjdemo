@@ -5,112 +5,106 @@ import { useState, useEffect, useRef } from "react"
 const projects = [
   {
     id: 1,
-    title: "Rover - The Beginning",
-    tagline: "A journey beyond imagination",
-    category: "Feature Film",
-    image: "/placeholder.svg?height=400&width=300",
-    tags: ["Drama", "Adventure", "Sci-Fi"],
-    year: "2024",
-    language: "Hindi",
-    duration: "2hr 15mins",
-    rating: "U/A",
+    title: "Anavarana",
+    category: "Film",
+    image: "/posters/anavarana.jpg",
+    tags: ["Thriller"], 
+    year: "2023",
+    language: "Kannada, Malayalam",
+    duration: "135 mins",
+    rating: "8.2",
     status: "Released",
     description:
-      "A thrilling journey through uncharted territories that challenges the boundaries of human exploration.",
-    director: "Rajesh Kumar",
-    producer: "Stellar Productions",
-    cast: "Rajesh Khanna, Priyanka Chopra",
-    presenter: "CINEMATIC VISION PRESENTS",
+      "An intelligent police officer investigates the mysterious murder of a woman, uncovering dark secrets linked to her architect husband who never reported her missing.",
+    director: "Harish kumar BK and Manjunath Pillappa",
+    producer: "Rachana BH and Satya Rani",
+    cast: "Arjunyogi, SarikaRao, Nandagopal, GOURISH AKKI, Honnavalli krishna, Rathasaptami Arvind, Comedykiladi Sooraj, Comedy santu, surya, vani",
+    presenter: "Namma Cinema",
   },
   {
     id: 2,
-    title: "Pinjare Wali",
-    tagline: "Love knows no boundaries",
-    category: "Feature Film",
-    image: "/placeholder.svg?height=400&width=300",
-    tags: ["Romance", "Drama"],
-    year: "2024",
+    title: "Bir",
+    category: "Film",
+    image: "/posters/bir.png",
+    tags: ["War", "Crime", "Thriller"],
+    year: "N/A",
     language: "Hindi",
-    duration: "1hr 58mins",
-    rating: "U",
+    duration: "90 mins",
+    rating: "N/A",
     status: "Coming Soon",
-    description: "A love story that transcends time and social barriers.",
-    director: "Priya Sharma",
-    producer: "Romantic Films Ltd",
-    cast: "Shah Rukh Khan, Deepika Padukone",
-    presenter: "LOVE STORIES PRESENTS",
+    description: "An Indian Army officer, captured in conflict-ridden Kashmir, finds strength in his wife's memory to defy captivity and make a daring escape.",
+    director: "Vareeinder Rana",
+    producer: "Namita Pathania Rana",
+    cast: "Ajit Singh Mehla, Sapna Chauhan & Asad Alvi",
+    presenter: "Awaraa Talkies",
   },
   {
     id: 3,
-    title: "Last Date",
-    tagline: "When time runs out",
-    category: "Feature Film",
-    image: "/placeholder.svg?height=400&width=300",
-    tags: ["Thriller", "Romance"],
+    title: "Shri Balaji Photo Studio",
+    category: "Film",
+    image: "/posters/bps.jpg",
+    tags: ["Drama"],
     year: "2023",
-    language: "Hindi",
-    duration: "1hr 45mins",
-    rating: "A",
+    language: "Kannada, Malayalam",
+    duration: "147 mins",
+    rating: "7",
     status: "Released",
-    description: "Uncover the truth behind the conspiracy in this edge-of-your-seat thriller.",
-    director: "Amit Verma",
-    producer: "Thriller House",
-    cast: "Akshay Kumar, Katrina Kaif",
-    presenter: "MYSTERY FILMS PRESENTS",
+    description: "In the quirky town of Kavalakki, a passionate photographer navigates love, betrayal, and secrets in a heartwarming comedy about dreams and human connections.",
+    director: "Rajesh Dhruva",
+    producer: "Venkateshwara Rao",
+    cast: "Rajesh Dhruva, Radhika AchuthRao, Ravi Salia, Sampath Jayram,Ravi Mururu, Rakshith Nag, Shubhalakshmi ",
+    presenter: "Srujana Productions",
   },
   {
     id: 4,
-    title: "Home Sweet Office",
-    tagline: "Work-life redefined",
-    category: "Web Series",
-    image: "/placeholder.svg?height=400&width=300",
-    tags: ["Comedy", "Drama"],
-    year: "2024",
-    language: "Hindi",
-    duration: "8 Episodes",
-    rating: "U/A",
-    status: "Streaming",
-    description: "A workplace comedy that hits close to home in the post-pandemic world.",
-    director: "Neha Gupta",
-    producer: "Digital Content Co",
-    cast: "Ayushmann Khurrana, Kriti Sanon",
-    presenter: "STREAMING ORIGINALS PRESENTS",
+    title: "Kaadu Male",
+    category: "Film",
+    image: "/posters/kaadumale.png",
+    tags: ["Sci-Fi"],
+    year: "2025",
+    language: "Kannada",
+    duration: "109 mins",
+    rating: "8",
+    status: "Released",
+    description: "After a failed suicide attempt, Meera wakes in a mysterious forest where illusion and reality blur, and must survive seven haunting incarnations to escape its supernatural grip.",
+    director: "Samartha",
+    producer: "Samartha ",
+    cast: "Harshan, Sangeetha Bhat, Karthik Bhat,Vijayalakshmi, Gilli Manju",
+    presenter: "Cosmos Movies",
   },
   {
     id: 5,
-    title: "Panchlait",
-    tagline: "Rural dreams, urban reality",
-    category: "Feature Film",
-    image: "/placeholder.svg?height=400&width=300",
-    tags: ["Drama", "Social"],
-    year: "2023",
+    title: "Groped…! ",
+    category: "Short Film",
+    image: "/posters/groped.jpg",
+    tags: ["Suspense", "Thriller"],
+    year: "N/A",
     language: "Hindi",
-    duration: "2hr 05mins",
-    rating: "U",
+    duration: "10 min 28 secs",
+    rating: "N/A",
     status: "Released",
-    description: "Rural dreams meet urban reality in this heartwarming social drama.",
-    director: "Suresh Patel",
-    producer: "Rural Cinema",
-    cast: "Nawazuddin Siddiqui, Radhika Apte",
-    presenter: "SOCIAL STORIES PRESENTS",
+    description: "Nisha\’s joyful day takes a dark turn when a stranger's harassment on a crowded bus shatters her sense of safety and peace.",
+    director: "Prathmesh Sanjekar",
+    producer: "Parth Suryawanshi, Devansh Bhatt, Prathmesh Sanjekar",
+    cast: "Ashwini Bagal, Mangesh Pawar, Vikas Hande, Piyush Kapoor, Gaurav Dhame, Pratiksha Gadekar, Kshitija Bramhe",
+    presenter: "PSF",
   },
   {
     id: 6,
-    title: "Jolly LLB 2",
-    tagline: "Justice with humor",
-    category: "Feature Film",
-    image: "/placeholder.svg?height=400&width=300",
-    tags: ["Comedy", "Legal"],
-    year: "2024",
-    language: "Hindi",
-    duration: "2hr 20mins",
-    rating: "U/A",
+    title: "4",
+    category: "Film",
+    image: "/posters/4.jpg",
+    tags: ["Drama"],
+    year: "N/A",
+    language: "English, Malayalam, Tamil, Khasi",
+    duration: "120 mins",
+    rating: "N/A",
     status: "Coming Soon",
-    description: "High-octane courtroom drama mixed with perfect comedic timing.",
-    director: "Subhash Kapoor",
-    producer: "Legal Laughs Productions",
-    cast: "Akshay Kumar, Huma Qureshi",
-    presenter: "COMEDY CENTRAL PRESENTS",
+    description: "4 is a groundbreaking Indian multilingual anthology weaving together four stories that explore universal human connections across diverse families and cultures.",
+    director: "Lokesh, Tijo, Kevin, Sankirang",
+    producer: "Pon Vishal ",
+    cast: "Harish Kumar, Reshma, Kanan, Aparna",
+    presenter: "Elsewhat",
   },
 ]
 
@@ -137,15 +131,20 @@ const FeaturedProjects = () => {
   }, [])
 
   const getRatingColor = (rating) => {
-    switch (rating) {
-      case "U":
-        return "bg-green-500"
-      case "U/A":
-        return "bg-yellow-500"
-      case "A":
-        return "bg-red-500"
-      default:
-        return "bg-gray-500"
+    if (rating === "N/A" || rating === "U/A" || rating === "U") {
+      return "bg-gray-500"
+    }
+    
+    const numRating = parseFloat(rating)
+    
+    if (numRating >= 7) {
+      return "bg-green-500"
+    } else if (numRating >= 5) {
+      return "bg-yellow-500"
+    } else if (numRating < 5) {
+      return "bg-red-500"
+    } else {
+      return "bg-gray-500"
     }
   }
 
@@ -197,19 +196,14 @@ const FeaturedProjects = () => {
               onMouseLeave={() => setSelectedProject(null)}
             >
               <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-3 hover:scale-[1.02]">
-                {/* Premium Badge */}
-                <div className="absolute top-4 left-4 z-20">
-                  <div className="px-3 py-1 bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-sm rounded-full text-xs font-bold text-white shadow-lg">
-                    PREMIUM
-                  </div>
-                </div>
+                                 {/* Premium Badge */}
+                 <div className="absolute top-4 left-4 z-20">
+                   <div className="px-3 py-1 bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-sm rounded-full text-xs font-bold text-white shadow-lg">
+                     PREMIUM
+                   </div>
+                 </div>
 
-                {/* Status Badge */}
-
-                {/* Presenter Text */}
-                <div className="absolute top-16 left-4 right-4 z-20">
-                  <p className="text-xs text-gray-300 font-light tracking-widest opacity-80">{project.presenter}</p>
-                </div>
+                                   
 
                 {/* Main Image */}
                 <div className="relative h-80 overflow-hidden">
@@ -219,12 +213,6 @@ const FeaturedProjects = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                  {/* Large Title Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <h1 className="text-6xl md:text-7xl font-black text-white/90 tracking-wider transform group-hover:scale-105 transition-transform duration-500 text-center leading-none">
-                      {project.title.split(" ")[0]}
-                    </h1>
-                  </div>
 
                   {/* Watch Button */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -237,20 +225,23 @@ const FeaturedProjects = () => {
 
                 {/* Detailed Info Card */}
                 <div className="relative bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-t border-gray-700/50 p-6">
-                  {/* Title and Category */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-white mb-1 group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                        {project.title}
-                      </h3>
-                      <p className="text-purple-400 text-sm font-semibold">{project.category}</p>
-                    </div>
-                    <div
-                      className={`w-12 h-12 rounded-full ${getRatingColor(project.rating)} flex items-center justify-center text-white font-bold text-sm shadow-lg`}
-                    >
-                      {project.rating}
-                    </div>
-                  </div>
+                                     {/* Title and Category */}
+                   <div className="flex items-start justify-between mb-4">
+                     <div className="flex-1">
+                       <h3 className="text-2xl font-bold text-white mb-1 group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                         {project.title}
+                       </h3>
+                       <p className="text-purple-400 text-sm font-semibold mb-2">{project.category}</p>
+                       <p className="text-xs font-bold tracking-widest bg-gradient-to-r from-purple-800 via-pink-800 to-red-800 bg-clip-text text-transparent">
+                         {project.presenter}
+                       </p>
+                     </div>
+                     <div
+                       className={`w-12 h-12 rounded-full ${getRatingColor(project.rating)} flex items-center justify-center text-white font-bold text-sm shadow-lg`}
+                     >
+                       {project.rating}
+                     </div>
+                   </div>
 
                   {/* Duration and Language */}
                   <div className="flex items-center gap-4 mb-4 text-sm text-gray-300">
@@ -268,30 +259,29 @@ const FeaturedProjects = () => {
                     </span>
                   </div>
 
-                  {/* Tagline */}
-                  <p className="text-lg font-medium text-gray-200 mb-3 italic">"{project.tagline}"</p>
+                  
 
                   {/* Description */}
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
 
-                  {/* Tags */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 text-xs font-medium rounded-full hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-200"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <div
-                      className={`px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-sm ${getStatusColor(project.status)}`}
-                    >
-                      {project.status}
-                    </div>
-                  </div>
+                                     {/* Tags and Status */}
+                   <div className="flex items-center justify-between mb-4">
+                     <div className="flex flex-wrap gap-2">
+                       {project.tags.map((tag) => (
+                         <span
+                           key={tag}
+                           className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 text-xs font-medium rounded-full hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-200"
+                         >
+                           {tag}
+                         </span>
+                       ))}
+                     </div>
+                     <div
+                       className={`px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-sm ${getStatusColor(project.status)}`}
+                     >
+                       {project.status}
+                     </div>
+                   </div>
 
                   {/* Credits - Show on Hover */}
                   <div
