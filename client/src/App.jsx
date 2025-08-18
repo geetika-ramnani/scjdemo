@@ -66,7 +66,7 @@ function AppContent() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/404" />} />
-        <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
+        {/* <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route
@@ -82,7 +82,25 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/oauth-callback" element={<OAuthCallback />} />
-        </Route>
+        </Route> */}
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route
+            path="/distribution"
+            element={
+              <RevenueProvider>
+                <DistributionPage />
+              </RevenueProvider>
+            }
+          />
+          <Route path="/talent" element={<TalentPage />} />
+          <Route path="/career" element={<CareersPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/oauth-callback" element={<OAuthCallback />} />
+
+
+          
 
         <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<Admin />} />
